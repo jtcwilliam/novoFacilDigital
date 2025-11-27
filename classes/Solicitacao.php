@@ -78,14 +78,26 @@ class Solicitacao
     {
         try {
 
+            /*select        sl.id_carta_servico ,  sl.descricao_solicitacao , TO_CHAR(data_solicitacao, 'DD/MM/YY  ás  HH:Mi') as "dias", ar.nome_secretaria ,
+            stt.descricao_status ,
+            sl.id_solicitacao, sl.status_solicitacao      
+            from solicitacao sl  inner join carta_servico cs on cs.id_nome_carta_servico  = sl.id_carta_servico   
+            inner join area ar on ar.id_secretaria = cs.id_secretaria 
+             inner join status stt on sl.status_solicitacao  = stt.id_status  
+             inner join nome_carta_servico ncs on ncs.id_nome_carta_servico  = cs.id_carta_servico  
+             
+             
+                    */
+
 
             $pdo = $this->getPdoConn();
 
-            $sql = "select        sl.assuntoSolicitacao,  descricaoCarta, date_format(dataSolicitacao, '%d/%m/%Y  ás  %H:%i') as dias, nomeSecretaria,  
-            stt.descricaoStatus , 
-            sl.id_solicitacao, statusSolicitacao   from solicitacao sl 
-             inner join status stt on sl.statusSolicitacao = stt.idStatus inner join linkCartaServico lcs on lcs.idlinkCartaServico = sl.assuntoSolicitacao 
-             where   idAtendente=" . $idAtendente;
+            $sql = "select   sl.id_carta_servico ,  sl.descricao_solicitacao , TO_CHAR(data_solicitacao, 'DD/MM/YY  ás  HH:Mi') as \"dias\", 
+            ar.nome_secretaria , stt.descricao_status , sl.id_solicitacao, sl.status_solicitacao from solicitacao sl  
+            inner join carta_servico cs on cs.id_carta_servico  = sl.id_carta_servico  
+            inner join area ar on ar.id_secretaria = cs.id_secretaria  
+            inner join status stt on sl.status_solicitacao  = stt.id_status   
+            inner join nome_carta_servico ncs on ncs.id_nome_carta_servico  = cs.id_nome_carta_servico  where   sl.id_atendente=" . $idAtendente;
 
             $stmt = $pdo->prepare($sql);
 
@@ -216,20 +228,22 @@ class Solicitacao
 
             $pdo = $this->getPdoConn();
 
-            $sql = "select  id_solicitacao     ,lc.descricaoCarta,  sl.descricaoSolicitacao  ,lc.nomeSecretaria, sl.solicitante,
-                    sl.tipoDocumento, sl.documentoPublico,
-                    dc.descricaoDoc, ps.nome_pessoa, ps.email_usuario, sl.docSolicitacaoPessoal, sl.assuntoSolicitacao,  sl.cepSolicitacao,  
-                    sl.logradouroSol    ,  sl.numeroSol,
+            $sql = "select  id_solicitacao     , ncs.nome_servico   ,  sl.descricao_solicitacao  ,ncs.id_secretaria , sl.solicitante,
+                    sl.tipo_documento , sl.documento_publico ,
+                    dc.descricao_doc , ps.nome_pessoa, ps.email_usuario,    sl.id_carta_servico  ,  sl.cep_solicitacao ,  
+                    sl.logradouro_sol ,  sl.numero_sol ,
                     sl.complemento, sl.bairro ,
-                    date_format(dataSolicitacao, '%d ' ) as 'dias', 
-                    date_format(dataSolicitacao, '%M' ) as 'mes', 
-                    date_format(dataSolicitacao, ' de %Y ' ) as 'ano',  date_format(dataSolicitacao, '%d/%m/%Y') as 'diaDaSolicitacao' ,
-                    sts.descricaoStatus, descricaoCategoria 
-                    from solicitacao sl inner join  linkCartaServico lc on lc.idlinkCartaServico = sl.assuntoSolicitacao 
-                    inner join documentos dc on dc.idDoc = sl.tipoDocumento inner join pessoa ps on ps.id_pessoa = sl.solicitante                     
-                    inner join status sts on sts.idStatus = sl.statusSolicitacao                    
-                    inner join categoria ct on ct.idCategoria = lc.categoria
-                    where  statusSolicitacao = 10 and   lc.categoria = " . $idCategoria . "  order by date_format(dataSolicitacao, '%d/%m/%Y'), rand() asc    limit 1  ";
+                    TO_CHAR(data_solicitacao, 'DD') as dia,
+ 				TO_CHAR(data_solicitacao, 'MM') as mês,
+				TO_CHAR(data_solicitacao, 'YY') as ano,
+				TO_CHAR(data_solicitacao, 'DD/MM/YY') as \"diaDaSolicitacao\", sts.descricao_status , ct.descricao_categoria  
+                    from solicitacao sl   
+                    inner join carta_servico cs on cs.id_carta_servico  = sl.id_carta_servico 
+                    inner join  nome_carta_servico ncs   on ncs.id_nome_carta_servico  = cs.id_nome_carta_servico 
+                    inner join documento dc on dc.id_doc = sl.tipo_documento   inner join pessoa ps on ps.id_pessoa = sl.solicitante                     
+                    inner join status sts on sts.id_status = sl.status_solicitacao                     
+                    inner join categoria ct on ct.id_categoria   = cs.categoria_atendimento 
+                    where  sl.status_solicitacao  = 10      order by TO_CHAR(data_solicitacao, 'DD/MM/YY') asc limit 1  ";
 
 
             $stmt = $pdo->prepare($sql);
@@ -467,7 +481,7 @@ class Solicitacao
             $id_solicitacao = $this->getSolicitacao();
             $idStatusSolicitacao = $this->getStatusSolicitacao();
 
-            $stmt = $pdo->prepare("  UPDATE solicitacao set idAtendente=?, statusSolicitacao=?     where id_solicitacao=?");
+            $stmt = $pdo->prepare("  UPDATE solicitacao set id_atendente=?, status_solicitacao=?     where id_solicitacao=?");
 
             //corrigir isto aqui
             $stmt->bindParam(1,  $idAtendente, PDO::PARAM_INT);

@@ -24,19 +24,19 @@ if (isset($_POST['managerSolicitacoesPorAtendente'])) {
 
 
     foreach ($solicitacoesAbertas as $key => $value) {
-        $idSolicitacao =  $value['idsolicitacao'];
+        $idSolicitacao =  $value['id_solicitacao'];
 
-        $statusoArquivo = $objArquivo->consultarDadosArquivosParaInfo($value['idsolicitacao']);
+        $statusoArquivo = $objArquivo->consultarDadosArquivosParaInfo($value['id_solicitacao']);
         foreach ($statusoArquivo as $key => $valorSolicitacao) {
-            if ($valorSolicitacao['statusArquivo'] == '12' || $valorSolicitacao['statusArquivo'] == '13') {
+            if ($valorSolicitacao['status_arquivo'] == '12' || $valorSolicitacao['status_arquivo'] == '13') {
 
 
-                $statusArquivo  = '<td style="background-color: #635d4d ;color:white" colspan="3"><b>id:</b> ' . $value['idsolicitacao']  . ' - Arquivo Solicitado ao cidadão</td>';
+                $statusArquivo  = '<td style="background-color: #635d4d ;color:white" colspan="3"><b>id:</b> ' . $value['id_solicitacao']  . ' - Arquivo Solicitado ao cidadão</td>';
 
                 break;
             } else {
                 //$statusArquivo = 'Solicitação em Andamento / Análise';
-                $statusArquivo  = '<td style="background-color: #fff2cdff" colspan="3"><b>id:</b> ' . $value['idsolicitacao']  . ' - Solicitação em Andamento / Análise</td>';
+                $statusArquivo  = '<td style="background-color: #fff2cdff" colspan="3"><b>id:</b> ' . $value['id_solicitacao']  . ' - Solicitação em Andamento / Análise</td>';
             }
         }
 
@@ -52,7 +52,7 @@ if (isset($_POST['managerSolicitacoesPorAtendente'])) {
                         </tr>
                          <tr>
                             <td colspan="3"><a style="color: green; font-weight: 400"  
-                            onclick="atribuirAtendente(' .  $value['idsolicitacao'] . ', 1 )">Clique para continuar os procedimentos</a></td>
+                            onclick="atribuirAtendente(' .  $value['id_solicitacao'] . ', 1 )">Clique para continuar os procedimentos</a></td>
                         </tr>
                         
                             
@@ -196,14 +196,14 @@ if (isset($_POST['exibirSolicitacaoAtendente'])) {
 
             <div class="small-12 large-10 cell">
                 <label style="color: #56658E; font-size: 1.1em; ">Assunto da Solicitação</label>
-                <p><?= $assinaturaAtiva[0]['descricaoCarta'] ?></p>
+                <p><?= $assinaturaAtiva[0]['nome_servico'] ?></p>
 
             </div>
 
 
             <div class="small-12 large-12 cell">
                 <label style="color: #56658E; font-size: 1.1em; ">Descrição da Sua Solicitação</label>
-                <p><?= $assinaturaAtiva[0]['descricaoSolicitacao'] ?></p>
+                <p><?= $assinaturaAtiva[0]['descricao_solicitacao'] ?></p>
             </div>
 
         </div>
@@ -228,7 +228,7 @@ if (isset($_POST['exibirSolicitacaoAtendente'])) {
             </div>
             <div class="small-12 large-4 cell">
                 <label style="color: #56658E; font-size: 1.1em; ">CPF do Solicitante</label>
-                <p><?= $assinaturaAtiva[0]['docSolicitacaoPessoal'] ?></p>
+                <p><?= $assinaturaAtiva[0]['doc_solicitacao_pessoal'] ?></p>
             </div>
 
             <div class="small-12 large-4 cell">
@@ -241,19 +241,19 @@ if (isset($_POST['exibirSolicitacaoAtendente'])) {
 
             <div class="small-12 large-3 cell">
                 <label style="color: #56658E; font-size: 1.1em; ">Dia da Solicitação</label>
-                <p><?= $assinaturaAtiva[0]['diaDaSolicitacao'] ?></p>
+                <p><?= $assinaturaAtiva[0]['dia_da_solicitacao'] ?></p>
 
             </div>
 
             <div class="small-12 large-2 cell">
                 <label style="color: #56658E; font-size: 1.1em; ">CEP: </label>
-                <p><?= $assinaturaAtiva[0]['cepSolicitacao'] ?></p>
+                <p><?= $assinaturaAtiva[0]['cep_solicitacao'] ?></p>
 
             </div>
 
             <div class="small-12 large-5 cell">
                 <label style="color: #56658E; font-size: 1.1em; ">Logradouro</label>
-                <p><?= $assinaturaAtiva[0]['logradouroSol'] . ',' . $assinaturaAtiva[0]['numeroSol'] ?></p>
+                <p><?= $assinaturaAtiva[0]['logradouro_sol'] . ',' . $assinaturaAtiva[0]['numero_sol'] ?></p>
 
             </div>
 
@@ -271,15 +271,15 @@ if (isset($_POST['exibirSolicitacaoAtendente'])) {
             </div>
 
             <div class="small-12 large-3 cell" id="boxInsc">
-                <label style="color: #56658E; font-size: 1.1em; "><?= $assinaturaAtiva[0]['descricaoDoc'] ?></label>
+                <label style="color: #56658E; font-size: 1.1em; "><?= $assinaturaAtiva[0]['descricao_doc'] ?></label>
 
-                <p><?= $assinaturaAtiva[0]['documentoPublico'] ?></p>
+                <p><?= $assinaturaAtiva[0]['documento_publico'] ?></p>
 
             </div>
 
             <div class="small-12 large-5 cell">
                 <?php
-                echo '<center><img style="" src="' . $assinaturaAtiva[0]['assinaturaSolicitacao']  . '" /><br> <p   style="margin-top: -30px; font-size:1em"> Assinatura </p> </center>';
+                echo '<center><img style="" src="' . $assinaturaAtiva[0]['assinatura_solicitacao']  . '" /><br> <p   style="margin-top: -30px; font-size:1em"> Assinatura </p> </center>';
                 ?>
             </div>
     </fieldset>
@@ -326,12 +326,12 @@ if (isset($_POST['categoriaSolicitacaoIndexAtendente'])) {
     ';
     foreach ($solicitaCategorias as $key => $value) { ?>
         <tr style="font-size: 1.5em;">
-            <td><?= $value['idSolicitacao'] ?></td>
+            <td><?= $value['id_solicitacao'] ?></td>
 
             <td><?= $value['diaDaSolicitacao']  ?></td>
-            <td><?= $value['descricaoStatus']  ?></td>
+            <td><?= $value['descricao_status']  ?></td>
             <td>
-                <center> <a style=" color: #56658E;" onclick="atribuirAtendente(<?= $value['idSolicitacao'] ?>, '<?= $value['descricaoCarta']  ?>')">Clique aqui para Iniciar Atendimento</a></center>
+                <center> <a style=" color: #56658E;" onclick="atribuirAtendente(<?= $value['id_solicitacao'] ?>, '<?= $value['descricao_solicitacao']  ?>')">Clique aqui para Iniciar Atendimento</a></center>
             </td>
         </tr>
     <?php  }

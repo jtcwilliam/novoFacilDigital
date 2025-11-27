@@ -11,6 +11,7 @@ session_start();
 $dadotipo_pessoa =     $_SESSION['usuarioLogado']['dados'][0]['tipo_pessoa'];
 $responsavelPessoa =   $_SESSION['usuarioLogado']['dados'][0]['id_unidade'];
 
+ 
 
 
 if (!isset($_SESSION)) {
@@ -151,9 +152,10 @@ if ($_SESSION['usuarioLogado']['dados'][0]['tipo_pessoa'] != 4 && $_SESSION['usu
 
             setTimeout(() => {
                 pesquisaSolicitaCategoria($('#txtCategoriaServico').val());
-            }, 2000);
+            }, 500);
 
-            pesquisarSolicitacoesAbertasPorAtendente($('#txtAtendente').val());
+       
+       pesquisarSolicitacoesAbertasPorAtendente($('#txtAtendente').val());
 
 
             //

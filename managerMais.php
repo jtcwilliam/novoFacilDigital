@@ -8,7 +8,7 @@ include_once 'includes/head.php';
 session_start();
 
 
-$dadotipo_pessoa =     $_SESSION['usuarioLogado']['dados'][0]['idtipo_pessoa'];
+$dadotipo_pessoa =     $_SESSION['usuarioLogado']['dados'][0]['tipo_pessoa'];
 $responsavelPessoa =   $_SESSION['usuarioLogado']['dados'][0]['id_unidade'];
 
 
@@ -17,10 +17,7 @@ if (!isset($_SESSION)) {
     session_start();
 }
 
-echo '<pre>';
-print_r($_SESSION);
-echo '</pre>';
-
+ 
 
 
 

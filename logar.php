@@ -100,7 +100,7 @@ include_once 'includes/head.php'
 
                     condicao = data.retorno;
 
-                    console.log(condicao);
+                    
 
                     if (data.retorno === false) {
 
@@ -128,7 +128,7 @@ include_once 'includes/head.php'
 
                     }
 
-                    tipo_pessoa = data.dadosUsuario.dados[0]['idtipo_pessoa'];
+                    tipo_pessoa = data.dadosUsuario.dados[0]['tipo_pessoa'];
 
 
                     switch (tipo_pessoa) {

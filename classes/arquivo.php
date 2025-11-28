@@ -43,11 +43,12 @@ class Arquivo
 
             $pdo = $this->getPdoConn();
 
-            $stmt = $pdo->prepare("  select * from servico_documento sd inner join documento dc on dc.idDoc = sd.id_documento
+            $stmt = $pdo->prepare(" select * from servico_documento sd inner join documento dc on dc.id_doc = sd.id_documento
                                 where id_servico in(
-                                select 
-                                assuntoSolicitacao from solicitacao sl inner join linkCartaServico lcs on sl.assuntoSolicitacao = lcs.idlinkCartaServico
-                                where id_solicitacao =  " . $id_solicitacao . ")");
+                                select  sl.id_carta_servico
+                                     from solicitacao sl inner join carta_servico cs 
+                                on cs.id_carta_servico = sl.id_carta_servico
+                                where id_solicitacao = " . $id_solicitacao . ")");
 
             $stmt->execute();
 
@@ -88,8 +89,8 @@ class Arquivo
 
             $pdo = $this->getPdoConn();
 
-            $stmt = $pdo->prepare("  select  id_arquivo ,nome_arquivo, tipo_arquivo, id_tipo_documento, status_arquivo, st.descricaoStatus, assinado_digital 
-             from arquivo ar inner join status st on ar.status_arquivo = st.idStatus  where id_solicitacao =" . $id_solicitacao . " 
+            $stmt = $pdo->prepare("  select  arquivo ,id_arquivo ,nome_arquivo, tipo_arquivo, id_tipo_documento, status_arquivo, st.descricao_status, assinado_digital 
+             from arquivo ar inner join status st on ar.status_arquivo = st.id_status  where id_solicitacao =" . $id_solicitacao . " 
                and  id_tipo_documento=" . $id_tipo_documento);
 
 

@@ -20,7 +20,7 @@ switch ($tipo_pessoa) {
                 <a class="button fundoBotoesTopo" href="consultaUsuario.php">Alterar Dados Usuário</a>
 
 
-                <a class="button fundoBotoesTopo" href="logout.php">Sair</a>
+                <a class="button fundoBotoesTopo" href="logout.php">Saissr</a>
 
             </div>
 

@@ -96,9 +96,7 @@ if ($_SESSION['usuarioLogado']['dados'][0]['tipo_pessoa'] != 4 && $_SESSION['usu
             <div class=" large reveal" id="modalManualAtendente" data-reveal style="padding: 60px   ;background-color: rgb(231, 228, 220);">
 
 
-                <div id="manualDIV"></div>
-
-
+              
 
                 <button class="close-button" data-close aria-label="Close modal" type="button">
                     <span aria-hidden="true">&times;</span>
@@ -205,168 +203,23 @@ if ($_SESSION['usuarioLogado']['dados'][0]['tipo_pessoa'] != 4 && $_SESSION['usu
 
             ?>
 
-
-    <div class="grid-x " style=" align-items: center; background-color: #4a473fff; color: whitesmoke; margin-top: -20px;   ">
-
-        <div class="small-12 large-2 cell">
-            <div class="grid-x  grid-padding-x">
-                <div class="small-2 cell" style="   display: inline; align-content: center; text-align: justify;">
-                    <h2>&nbsp;</i></h2>
-                </div>
-
-                <div class="small-10 cell" style="display: inline; align-content: center; text-align: justify;">
-                    <a style="color: white;" onclick="ajudaAtendente($('#idSolicitacao').val())">
-                        <h5>Ações </h5>
-                    </a>
-                </div>
-            </div>
-
+    <div class="grid-x grid-padding-x">
+        <div class="small-12 large-12 cell" id="manualDIV">
 
         </div>
-        <div class="small-12 large-2 cell">
-            <div class="grid-x  grid-padding-x">
-                <div class="small-2 cell" style="   display: inline; align-content: center; text-align: justify;">
-                    <h3><i class="fi-torsos-male-female large"></i></h3>
-                </div>
-                <div class="small-10 cell" style="display: inline; align-content: center; text-align: justify;">
-                    <a style="color: white;"   target="_blank" href="exibirManual.php?idSolicitacao=<?= $_GET['89a2e8ef07b59a9a87135b9e2fe979d4b40a616d'] ?>"   >
-                        <h6>Quer uma Ajuda? </h6>
-                    </a>
-                </div>
-            </div>
-        </div>
-
-        <div class="small-12 large-3 cell">
-            <div class="grid-x  grid-padding-x">
-                <div class="small-2 cell" style="   display: inline; align-content: center; text-align: justify;">
-                    <h3><i class="fi-folder-add large"></i></h3>
-                </div>
-                <div class="small-10 cell" style="display: inline; align-content: center; text-align: justify;">
-
-                <a  style="color: white;" onclick="exbirArquivosDaSolicitacao($('#idSolicitacao').val())">
-                            <h6>Arquivos da Solicitação </h6>
-                        </a>
-                   
-                </div>
-            </div>
-        </div>
-            <div class="small-12 large-2 cell">
-            <div class="grid-x  grid-padding-x">
-                <div class="small-2 cell" style="   display: inline; align-content: center; text-align: justify;">
-                    <h3><i class="fi-page-multiple large"></i></h3>
-                </div>
-                <div class="small-10 cell" style="display: inline; align-content: center; text-align: justify;">
-
-                <a style="color: white;" target="_blank" href="relatorio.php?idSolicitacao=<?= $_GET['89a2e8ef07b59a9a87135b9e2fe979d4b40a616d'] ?>">
-                            <h6>Relatório </h6>
-                        </a>
-                   
-                </div>
-            </div>
-        </div>
-        
-
-
-
-
 
     </div>
 
 
 
+    <?php
 
-    <div class="grid-x grid-padding-x">
-        <div class="small-12 large-12 cell" id="containnerSolicitacao">
+    include_once 'includes/footer.php';
 
-
-        </div>
-
-
-        <div class="small-12 large-4 cell">
-            <input type="hidden" id="idSolicitacao" value="<?= $_GET['89a2e8ef07b59a9a87135b9e2fe979d4b40a616d'] ?>" />
-
-            <fieldset class="fieldset" id="fieldSolicitacao" style="display: block; font-size:1em; width: 100%;">
-                <legend>
-                    <h4 id="" onclick="$('#retorno').foundation('open')" style="color: #56658E; "><b>Ações</b></h4>
-                </legend>
-
-
-
-
-                <div class="grid-x  grid-padding-x">
-                    <div class="small-1 cell" style="   display: inline; align-content: center; text-align: justify;color: #56658E">
-                        <h2><i class="fi-folder-add large"></i></h2>
-                    </div>
-                    <div class="small-11 cell" style="display: inline; align-content: center; text-align: justify;color: #56658E">
-                        <a onclick="exbirArquivosDaSolicitacao($('#idSolicitacao').val())">
-                            <h4>Arquivos da Solicitação </h4>
-                        </a>
-                    </div>
-                </div>
-
-
-
-
-
-                <div class="grid-x  grid-padding-x" style="display: none;">
-                    <div class="small-1 cell" style="   display: inline; align-content: center; text-align: justify;color: #56658E">
-                        <h2><i class="fi-megaphone large"></i></h2>
-                    </div>
-                    <div class="small-11 cell" style="display: inline; align-content: center; text-align: justify;color: #56658E">
-                        <h4>Comunicar ao Cidadão </h4>
-                    </div>
-                </div>
-
-
-                <div class="grid-x  grid-padding-x" style="color: #56658E; display: none;">
-                    <div class="small-1 cell" style="   display: inline; align-content: center; text-align: justify;color: #56658E">
-                        <h2><i class="fi-archive large"></i></h2>
-                    </div>
-                    <div class="small-11 cell" style="display: inline; align-content: center; text-align: justify; color: #56658E;  ">
-                        <h4>Arquivar Solicitação </h4>
-                    </div>
-                </div>
-
-
-
-                <div class="grid-x  grid-padding-x" style="display: none;">
-                    <div class="small-1 cell" style="   display: inline; align-content: center; text-align: justify;color: #56658E">
-                        <h2><i class="fi-check large"></i></h2>
-                    </div>
-                    <div class="small-11 cell" style="display: inline; align-content: center; text-align: justify;color: #56658E">
-                        <h4>Aprovar Solicitação </h4>
-                    </div>
-                </div>
-
-                <div class="grid-x  grid-padding-x">
-                    <div class="small-1 cell" style="   display: inline; align-content: center; text-align: justify;color: #56658E">
-                        <h2><i class="fi-page-multiple large"></i></h2>
-                    </div>
-                    <div class="small-11 cell" style="display: inline; align-content: center; text-align: justify;color: #56658E">
-                        <a target="_blank" href="relatorio.php?idSolicitacao=<?= $_GET['89a2e8ef07b59a9a87135b9e2fe979d4b40a616d'] ?>">
-                            <h4>Relatório </h4>
-                        </a>
-                    </div>
-                </div>
-
-                <div class="grid-x  grid-padding-x" style="display: none;">
-                    <div class="small-1 cell" style="   display: inline; align-content: center; text-align: justify;color: #56658E">
-                        <h2><i class="fi-page-copy large"></i></h2>
-                    </div>
-                    <div class="small-11 cell" style="display: inline; align-content: center; text-align: justify;color: #56658E">
-                        <h4>Encaminhar para Processo SEI </h4>
-                    </div>
-                </div>
-            </fieldset>
-        </div>
-    </div><?php
-
-            include_once 'includes/footer.php';
-
-            ?><script>
+    ?><script>
         $(document).ready(function() {
 
-            exibirSolicitacao($('#idSolicitacao').val());
+            ajudaAtendente(<?=$_GET['idSolicitacao']?>);
 
 
         })
@@ -407,7 +260,7 @@ if ($_SESSION['usuarioLogado']['dados'][0]['tipo_pessoa'] != 4 && $_SESSION['usu
 
             }).done(function(data) {
                 $('#tabelaArquivos').html(data);
-                 
+                $('#retorno').foundation('open');
             });
         }
 
@@ -427,7 +280,7 @@ if ($_SESSION['usuarioLogado']['dados'][0]['tipo_pessoa'] != 4 && $_SESSION['usu
                 encode: true
 
             }).done(function(data) {
-                $('#modalManualAtendente').foundation('open');
+                //$('#modalManualAtendente').foundation('open');
                 $('#manualDIV').html(data);
 
             });

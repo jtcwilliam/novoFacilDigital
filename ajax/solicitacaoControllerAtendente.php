@@ -81,94 +81,117 @@ if (isset($_POST['listarArquivosAtendente'])) {
 
 
 
+?>
+    <table>
+        
+        
 
-
-    foreach ($arquivosNecessarios as $key => $value) { ?>
+        <thead>
+            <th>Status</th>
+            <th>Documento</th>
+            <th>Visualizar</th>
+            <th>Alterar</th>
+            <th>Excluir</th>
+            <th>Assinado Digital?</th>
+        </thead>
+            <tbody>
         <?php
 
-        $arquivos = $objArquivo->consultaArquivosParaComuniquese($_POST['solicitacao'], $value['idDocumento']);
+            foreach ($arquivosNecessarios as $key => $value) { ?>
 
-        if ($arquivos[0]['statusArquivo'] != '1') {
+            <?php
 
-            $linhaStatusArquivos = ' style="background-color: #f89d47ff; color: Black"  ';
-        } else {
-            $linhaStatusArquivos = ' style=""  ';
-        }
+                $arquivos = $objArquivo->consultaArquivosParaComuniquese($_POST['solicitacao'], $value['id_documento']);
 
 
-        if (!empty($arquivos)) {
+                if (isset($arquivos[0])) {
+                    if ($arquivos[0]['status_arquivo'] != '1') {
 
-            if ($arquivos[0]['assinadoDigital'] == 0) {
-                $assinaturaDigital = 'Não';
-                $statusArquivo = 1;
-            } else {
-                $assinaturaDigital = 'Sim';
-                $statusArquivo = 0;
-            }
+                        $linhaStatusArquivos = ' style="background-color: #f89d47ff; color: Black"  ';
+                    } else {
+                        $linhaStatusArquivos = ' style=""  ';
+                    }
 
 
+                    if (!empty($arquivos)) {
 
-            echo '  <tr ' . $linhaStatusArquivos . '>
-                        <td width="15%"  ><b>' . $arquivos[0]['descricaoStatus'] . '</b> </td>
-                        <td   ' . $linhaStatusArquivos . ' > <b>' . $arquivos[0]['nomeArquivo'] . '</b></td>
-                        <td  ' . $linhaStatusArquivos . '>  <center><a    target="_blank" href="exibirArquivoSolicitacao.php?idArquivo=' . $arquivos[0]['idArquivo'] . '" >   <h4><i ' . $linhaStatusArquivos . ' class="fi-zoom-in large"></i></h4> </a> </center> </td>
-                        <td  ' . $linhaStatusArquivos . '> <center>-</center>  </td>
+                        if ($arquivos[0]['assinado_digital'] == 0) {
+                            $assinaturaDigital = 'Não';
+                            $statusArquivo = 1;
+                        } else {
+                            $assinaturaDigital = 'Sim';
+                            $statusArquivo = 0;
+                        }
 
-                        <td  ' . $linhaStatusArquivos . '><center>    
-                            <a  ' . $linhaStatusArquivos . 
+
+
+                        echo '  <tr   ' . $linhaStatusArquivos . '>
+                        <td   ><b>' . $arquivos[0]['descricao_status'] . '</b> </td>
+                        <td    ' . $linhaStatusArquivos . ' > <b>' . $arquivos[0]['nome_arquivo'] . '</b></td>
+                        <td     ' . $linhaStatusArquivos . '>  <center><a    target="_blank" href="' . $arquivos[0]['arquivo'] . '" >   <h4><i ' . $linhaStatusArquivos . ' class="fi-zoom-in large"></i></h4> </a> </center> </td>
+                        <td     ' . $linhaStatusArquivos . '> <center>-</center>  </td>
+
+                        <td   ' . $linhaStatusArquivos . '><center>    
+                            <a  ' . $linhaStatusArquivos .
                             ' onclick="$(\'#modalComunicaArquivo\').foundation(\'open\');  
-                              $(\'#nomeDoArquivoEnvio\').html(\'Substituir Arquivo  ' . $arquivos[0]['nomeArquivo'] . '\'); 
-                              $(\'#acaoComuniqueSE\').val(\'alterarArquivo\');  $(\'#aquivoPraSolicitar\').val(' .   $arquivos[0]['idArquivo']  . ');    
+                              $(\'#nomeDoArquivoEnvio\').html(\'Substituir Arquivo  ' . $arquivos[0]['nome_arquivo'] . '\'); 
+                              $(\'#acaoComuniqueSE\').val(\'alterarArquivo\');  $(\'#aquivoPraSolicitar\').val(' .   $arquivos[0]['id_arquivo']  . ');    
                                   " ><h4><i class="fi-x large"></i></h4></a>
                         </center> </td>
 
                         <td  ' . $linhaStatusArquivos . '><center>    
-                            <a  ' . $linhaStatusArquivos . ' onclick="arquivoAssinaturaDigital(' .   $arquivos[0]['idArquivo']  . ',' . $statusArquivo . ');        " ><h4>' . $assinaturaDigital . '</h4></a>
+                            <a  ' . $linhaStatusArquivos . ' onclick="arquivoAssinaturaDigital(' .   $arquivos[0]['id_arquivo']  . ',' . $statusArquivo . ');        " ><h4>' . $assinaturaDigital . '</h4></a>
                         </center> </td>
                     
                     
                     
                 </tr>';
-        } else {
+                    }
+                } else {
 
-            echo '   <tr>
+                    echo '   <tr>
 
 
-            <td width="15%"> 
+            <td > 
             Nulo </td>
-                                <td width="70%">' .  $value['descricaoDoc'] . '</td>
-                                <td width="10%">
+                                <td  >' .  $value['descricao_doc'] . '</td>
+                                <td  >
                                     <center> - </center>
                                 </td>
-                                <td width="10%">
+                                <td  >
                                
-                                    <center><a onclick="  $(\'#acaoComuniqueSE\').val(\'solicitarArquivo\');  $(\'#nomeDoArquivoEnvio\').html(\'Solicitar Arquivo  ' .$value['descricaoDoc'] . '\'); 
-                                      $(\'#aquivoPraSolicitar\').val(' .  $value['idDocumento'] . ');  $(\'#modalComunicaArquivo\').foundation(\'open\');">  <h4><i class="fi-megaphone large"></i></h4></a> </center> 
+                                    <center><a onclick="  $(\'#acaoComuniqueSE\').val(\'solicitarArquivo\');  $(\'#nomeDoArquivoEnvio\').html(\'Solicitar Arquivo  ' . $value['descricao_doc'] . '\'); 
+                                      $(\'#aquivoPraSolicitar\').val(' .  $value['id_documento'] . ');  $(\'#modalComunicaArquivo\').foundation(\'open\');">  <h4><i class="fi-megaphone large"></i></h4></a> </center> 
                                 </td>
-                                <td width="10%">
+                                <td  >
                                     <center> - </center>
                                 </td>
-                                 <td width="10%">
+                                 <td  >
                                     <center> - </center>
                                 </td>
 
                             </tr> ';
-        }
+                }
 
 
 
 
+
+            ?>
+
+
+
+        <?php
+
+            }
 
         ?>
+    </tbody>    
+    </table>
+<?php
 
 
-     
-    <?php
 
-    }
-
-
- 
 
 
 
@@ -182,7 +205,7 @@ if (isset($_POST['listarArquivosAtendente'])) {
 
 if (isset($_POST['exibirSolicitacaoAtendente'])) {
     $assinaturaAtiva =     $objSolicitacao->pesquisarAssinatura($_POST['idSolicitacao']);
-    ?>
+?>
 
     <fieldset class="fieldset" id="fieldSolicitacao" style="display: block; font-size:1em">
         <legend>
@@ -205,6 +228,23 @@ if (isset($_POST['exibirSolicitacaoAtendente'])) {
                 <label style="color: #56658E; font-size: 1.1em; ">Descrição da Sua Solicitação</label>
                 <p><?= $assinaturaAtiva[0]['descricao_solicitacao'] ?></p>
             </div>
+
+
+            <div class="small-12 large-12 cell">
+                <label style="color: #56658E; font-size: 1.1em; ">Documentos Anexos a Solicitacao</label>
+
+                <table>
+                    <tbody>
+                        <div id="tabelaArquivos"></div>
+                    </tbody>
+                </table>
+
+
+            </div>
+
+
+
+
 
         </div>
     </fieldset>

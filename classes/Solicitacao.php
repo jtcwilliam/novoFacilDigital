@@ -430,10 +430,11 @@ class Solicitacao
 
             $pdo = $this->getPdoConn();
 
-            $sql = " select * from linkCartaServico lcs inner join servicoDocumento sd on lcs.idLinkCartaServico = sd.idServico 
-            inner join documentos dc on dc.idDoc = sd.idDocumento 
-            inner join solicitacao sl on sl.assuntoSolicitacao = lcs.idlinkCartaServico
-             where servicoHabilitado is not null and sl.id_solicitacao =" . $id_solicitacao;
+            $sql = " select * from  carta_servico cs   inner join servico_documento sd on cs.id_carta_servico = sd.id_servico 
+            inner join documento dc on dc.id_doc = sd.id_documento 
+            inner join nome_carta_servico ncs  on ncs.id_nome_carta_servico  = cs.id_nome_carta_servico 
+            inner join solicitacao sl on sl.id_carta_servico = cs.id_carta_servico
+             where servico_habilitado is not null and sl.id_solicitacao= " . $id_solicitacao;
 
 
 

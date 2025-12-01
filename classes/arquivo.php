@@ -298,12 +298,8 @@ class Arquivo
             $stmt->bindParam(5,  $status_arquivo, PDO::PARAM_INT);
             $stmt->bindParam(6,  $id_tipo_documento, PDO::PARAM_INT);
             $stmt->bindParam(7,  $assinado_digital, PDO::PARAM_INT);
+ 
 
-            $ultimo_id = $stmt->fetch(PDO::FETCH_ASSOC);
-
-
-
-         
 
 
 
@@ -312,15 +308,10 @@ class Arquivo
 
             if ($stmt->execute()) {
 
-              /*  $last = $pdo->prepare(" SELECT (currval('arquivos_idarquivo_seq'))");
+                 $newUserId = $stmt->fetchColumn();
+ 
 
-                $last->execute();
-
-                $ultimoId = $last->fetchAll();
-                */
-
-
-                return json_encode(array('ultimoID' => $ultimo_id, 'retorno' => true));
+                return json_encode(array('ultimoID' => $newUserId, 'retorno' => true));
 
 
                 //return true;

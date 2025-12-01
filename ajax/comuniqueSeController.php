@@ -47,20 +47,22 @@ if (isset($_POST['acaoComuniqueSE']) &&  $_POST['acaoComuniqueSE'] == 'solicitar
             session_start();
         }
 
+ 
 
-        print_r($dadosDoInsert);
-        exit();
-        
-
+      
 
         $arr = json_decode($dadosDoInsert, true);
+
+        print_r($arr['ultimoID'] );
+
+        
 
 
 
         
 
         //retorno para pegar o ultimoID
-      //  $idArquivoParaLog =   $arr['ultimoID'][0]['LAST_INSERT_ID()'];
+         $idArquivoParaLog =   $arr['ultimoID'];
 
 
 

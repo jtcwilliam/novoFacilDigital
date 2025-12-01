@@ -286,8 +286,8 @@ class Arquivo
             $assinado_digital = $this->getAssinadoDigital();
 
 
- 
-            $stmt = $pdo->prepare("  INSERT INTO  arquivo ( arquivo, tipo_arquivo, nome_arquivo, id_solicitacao, status_arquivo, id_tipo_documento,assinado_digital    )   values (?,?,?,?,?, ?,?) ");
+
+            $stmt = $pdo->prepare("  INSERT INTO  arquivo ( arquivo, tipo_arquivo, nome_arquivo, id_solicitacao, status_arquivo, id_tipo_documento,assinado_digital    )   values (?,?,?,?,?, ?,?) RETURNING  id_arquivo  ");
 
 
             //corrigir isto aqui
@@ -299,6 +299,12 @@ class Arquivo
             $stmt->bindParam(6,  $id_tipo_documento, PDO::PARAM_INT);
             $stmt->bindParam(7,  $assinado_digital, PDO::PARAM_INT);
 
+            $ultimo_id = $stmt->fetch(PDO::FETCH_ASSOC);
+
+
+
+         
+
 
 
 
@@ -306,14 +312,15 @@ class Arquivo
 
             if ($stmt->execute()) {
 
-                $last = $pdo->prepare(" SELECT (currval('arquivos_idarquivo_seq'))");
+              /*  $last = $pdo->prepare(" SELECT (currval('arquivos_idarquivo_seq'))");
 
                 $last->execute();
 
                 $ultimoId = $last->fetchAll();
+                */
 
 
-                return json_encode(array('ultimoID' => $ultimoId, 'retorno' => true));
+                return json_encode(array('ultimoID' => $ultimo_id, 'retorno' => true));
 
 
                 //return true;

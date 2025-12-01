@@ -508,7 +508,7 @@ if ($_SESSION['usuarioLogado']['dados'][0]['tipo_pessoa'] != 4 && $_SESSION['usu
                 type: 'POST',
                 url: 'ajax/comuniqueSeController.php',
                 data: formData,
-                dataType: 'json',
+                dataType: 'html',
                 encode: true
             }).done(function(data) {
 

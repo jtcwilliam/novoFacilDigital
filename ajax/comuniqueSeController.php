@@ -21,11 +21,11 @@ $objDocumentos = new Documentos();
 
 if (isset($_POST['acaoComuniqueSE']) &&  $_POST['acaoComuniqueSE'] == 'solicitarArquivo') {
 
-    $tipoDocumento = $objDocumentos->trazerDocumentos(' where idDoc=' . $_POST['codigoId']);
+    $tipoDocumento = $objDocumentos->trazerDocumentos(' where id_doc=' . $_POST['codigoId']);
 
     $objArquivo->setTipoArquivo('Indefinido');
 
-    $objArquivo->setNomeArquivo($tipoDocumento[0]['descricaoDoc']);
+    $objArquivo->setNomeArquivo($tipoDocumento[0]['descricao_doc']);
 
     $objArquivo->setIdSolicitacao($_POST['solicitacao']);
 
@@ -33,7 +33,7 @@ if (isset($_POST['acaoComuniqueSE']) &&  $_POST['acaoComuniqueSE'] == 'solicitar
 
     $objArquivo->setArquivo('Arquivo vazio');
 
-    $objArquivo->setIdTipoDocumento($tipoDocumento[0]['idDoc']);
+    $objArquivo->setIdTipoDocumento($tipoDocumento[0]['id_doc']);
     $objArquivo->setAssinadoDigital('0');
 
     $carregarFinalizaUP = 1;
@@ -48,18 +48,24 @@ if (isset($_POST['acaoComuniqueSE']) &&  $_POST['acaoComuniqueSE'] == 'solicitar
         }
 
 
+        print_r($dadosDoInsert);
+        exit();
+        
+
 
         $arr = json_decode($dadosDoInsert, true);
 
 
 
+        
+
         //retorno para pegar o ultimoID
-        $idArquivoParaLog =   $arr['ultimoID'][0]['LAST_INSERT_ID()'];
+      //  $idArquivoParaLog =   $arr['ultimoID'][0]['LAST_INSERT_ID()'];
 
 
 
         $usuarioLog = $_SESSION['usuarioLogado']['dados'][0]['nome'];
-        $nomeLog = 'Solicitamos o Envio do Arquivo ' . $tipoDocumento[0]['descricaoDoc'];
+        $nomeLog = 'Solicitamos o Envio do Arquivo ' . $tipoDocumento[0]['descricao_doc'];
         $textoLog = $_POST['mensagemComuniqueArquivo'];
         $statusLog = '12';
         setlocale(LC_TIME, 'pt_BR', 'pt_BR.utf-8', 'pt_BR.utf-8', 'portuguese');
@@ -97,7 +103,7 @@ if (isset($_POST['acaoComuniqueSE']) &&  $_POST['acaoComuniqueSE'] == 'alterarAr
         $dadosArquivo = $objArquivo->dadosArquivoSolicitante($_POST['codigoId']);
 
         $usuarioLog = $_SESSION['usuarioLogado']['dados'][0]['nome'];
-        $nomeLog = 'Alteração do Arquivo' . $dadosArquivo[0]['nomeArquivo'];
+        $nomeLog = 'Alteração do Arquivo' . $dadosArquivo[0]['nome_arquivo'];
         $textoLog = $_POST['mensagemComuniqueArquivo'];
         $statusLog = '12';
 

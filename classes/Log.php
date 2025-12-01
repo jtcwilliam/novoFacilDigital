@@ -109,7 +109,12 @@ class Log
             $idSolicitacao = $this->getSolicitacao();
             $idArquivo = $this->getIdArquivo();
 
-            $stmt = $pdo->prepare("  INSERT INTO  log (nome_pessoaLog, nomeLog,textoLog , statusLog , dataLog, idSolicitacao ,tipo_pessoaLog, idArquivo   )   values (?,?,?,?,?,?,?,?) ");
+            $stmt = $pdo->prepare("  INSERT INTO  log (nome_pessoa_log, nome_log,texto_log , status_log , data_log, id_solicitacao ,tipo_pessoa_log, id_arquivo   )   values (?,?,?,?,?,?,?,?) ");
+
+            $sql = "  INSERT INTO  log (nome_pessoa_log, nome_log,texto_log , status_log , data_log, id_solicitacao ,tipo_pessoa_log, id_arquivo   )  
+ values ('" . $usuarioLog . "','" . $nomeLog . "','" . $textoLog . "','" . $statusLog . "','" . $dataLog . "','" . $idSolicitacao . "','" . $tipo_pessoa . "','" . $idArquivo . "') ";
+
+            echo $sql;
 
             //corrigir isto aqui
             $stmt->bindParam(1,  $usuarioLog, PDO::PARAM_LOB); //

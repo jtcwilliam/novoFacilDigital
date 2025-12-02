@@ -110,28 +110,26 @@ class Log
             $idArquivo = $this->getIdArquivo();
 
             $stmt = $pdo->prepare("  INSERT INTO  log (nome_pessoa_log, nome_log,texto_log , status_log , data_log, id_solicitacao ,tipo_pessoa_log, id_arquivo   )   values (?,?,?,?,?,?,?,?) ");
+ 
 
-            $sql = "  INSERT INTO  log (nome_pessoa_log, nome_log,texto_log , status_log , data_log, id_solicitacao ,tipo_pessoa_log, id_arquivo   )  
- values ('" . $usuarioLog . "','" . $nomeLog . "','" . $textoLog . "','" . $statusLog . "','" . $dataLog . "','" . $idSolicitacao . "','" . $tipo_pessoa . "','" . $idArquivo . "') ";
-
-            echo $sql;
+     
 
             //corrigir isto aqui
-            $stmt->bindParam(1,  $usuarioLog, PDO::PARAM_LOB); //
+            $stmt->bindParam(1,  $usuarioLog, PDO::PARAM_STR); //
 
-            $stmt->bindParam(2,  $nomeLog, PDO::PARAM_LOB); //
+            $stmt->bindParam(2,  $nomeLog, PDO::PARAM_STR); //
 
-            $stmt->bindParam(3,  $textoLog, PDO::PARAM_LOB); //
+            $stmt->bindParam(3,  $textoLog, PDO::PARAM_STR); //
 
-            $stmt->bindParam(4,  $statusLog, PDO::PARAM_LOB); //
+            $stmt->bindParam(4,  $statusLog, PDO::PARAM_INT); //
 
-            $stmt->bindParam(5,  $dataLog, PDO::PARAM_LOB); //
+            $stmt->bindParam(5,  $dataLog, PDO::PARAM_STR); //
 
-            $stmt->bindParam(6,  $idSolicitacao, PDO::PARAM_LOB); //
+            $stmt->bindParam(6,  $idSolicitacao, PDO::PARAM_INT); //
 
-            $stmt->bindParam(7,  $tipo_pessoa, PDO::PARAM_LOB); //
+            $stmt->bindParam(7,  $tipo_pessoa, PDO::PARAM_INT); //
 
-            $stmt->bindParam(8,  $idArquivo, PDO::PARAM_LOB); //
+            $stmt->bindParam(8,  $idArquivo, PDO::PARAM_INT); //
 
             if ($stmt->execute()) {
                 return true;

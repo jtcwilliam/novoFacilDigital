@@ -90,7 +90,8 @@ if (isset($_POST['listarArquivosAtendente'])) {
             <th>Status</th>
             <th>Documento</th>
             <th>Visualizar</th>
-            <th>Alterar</th>
+            <th>Solicitar Arquivo</th>
+            <th>Alterar Arquivo</th>
             <th>Excluir</th>
             <th>Assinado Digital?</th>
         </thead>
@@ -130,6 +131,7 @@ if (isset($_POST['listarArquivosAtendente'])) {
                         <td    ' . $linhaStatusArquivos . ' > <b>' . $arquivos[0]['nome_arquivo'] . '</b></td>
                         <td     ' . $linhaStatusArquivos . '>  <center><a    target="_blank" href="' . $arquivos[0]['arquivo'] . '" >   <h4><i ' . $linhaStatusArquivos . ' class="fi-zoom-in large"></i></h4> </a> </center> </td>
                         <td     ' . $linhaStatusArquivos . '> <center>-</center>  </td>
+                        <td     ' . $linhaStatusArquivos . '> <center>Alterar</center>  </td>
 
                         <td   ' . $linhaStatusArquivos . '><center>    
                             <a  ' . $linhaStatusArquivos .
@@ -167,7 +169,10 @@ if (isset($_POST['listarArquivosAtendente'])) {
                                     <center> - </center>
                                 </td>
                                  <td  >
-                                    <center> - </center>
+                                    <center> x </center>
+                                </td>
+                                 <td  >
+                                    <center> x </center>
                                 </td>
 
                             </tr> ';

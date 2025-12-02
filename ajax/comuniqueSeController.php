@@ -47,22 +47,19 @@ if (isset($_POST['acaoComuniqueSE']) &&  $_POST['acaoComuniqueSE'] == 'solicitar
             session_start();
         }
 
- 
 
-      
+
+
+
 
         $arr = json_decode($dadosDoInsert, true);
 
-        print_r($arr['ultimoID'] );
-
-        
+        $ultimoId = $arr['ultimoID'];
 
 
-
-        
 
         //retorno para pegar o ultimoID
-         $idArquivoParaLog =   $arr['ultimoID'];
+        //  $idArquivoParaLog =   $arr['ultimoID'][0]['LAST_INSERT_ID()'];
 
 
 
@@ -77,12 +74,13 @@ if (isset($_POST['acaoComuniqueSE']) &&  $_POST['acaoComuniqueSE'] == 'solicitar
 
         $objLog->setnome_pessoaLog($usuarioLog);
         $objLog->setNomeLog($nomeLog);
-        $objLog->setTextoLog($textoLog);
+         
+        $objLog->setTextoLog($_POST['mensagemComuniqueArquivo']);
         $objLog->setStatusLog($statusLog);
         $objLog->setDataLog($dataLog);
         $objLog->settipo_pessoaLog($_SESSION['usuarioLogado']['dados'][0]['tipo_pessoa']);
         $objLog->setSolicitacao($_POST['solicitacao']);
-        $objLog->setIdArquivo($idArquivoParaLog);
+        $objLog->setIdArquivo($ultimoId);
 
         if ($objLog->inserirLog()) {
             echo json_encode(array('retorno' => true));
@@ -120,7 +118,7 @@ if (isset($_POST['acaoComuniqueSE']) &&  $_POST['acaoComuniqueSE'] == 'alterarAr
         $objLog->setStatusLog($statusLog);
         $objLog->setDataLog($dataLog);
         $objLog->setIdArquivo($_POST['codigoId']);
-        
+
 
         $objLog->settipo_pessoaLog($_SESSION['usuarioLogado']['dados'][0]['tipo_pessoa']);
         $objLog->setSolicitacao($_POST['solicitacao']);

@@ -114,7 +114,7 @@ class Arquivo
 
             $pdo = $this->getPdoConn();
 
-            $stmt = $pdo->prepare(" select  ar.id_arquivo ,sl.solicitante, ps.nome_pessoa ,  nome_arquivo from solicitacao sl inner join pessoas ps on ps.id_pessoa = sl.solicitante 
+            $stmt = $pdo->prepare(" select  ar.id_arquivo ,sl.solicitante, ps.nome_pessoa ,  nome_arquivo from solicitacao sl inner join pessoa ps on ps.id_pessoa = sl.solicitante 
  INNER join arquivo ar on ar.id_solicitacao  = sl.id_solicitacao where ar.id_arquivo =" . $id_arquivo);
 
 
@@ -332,18 +332,15 @@ class Arquivo
             //    $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
             $id_arquivo =   $this->getIdArquivo();
+            $id_status = $this->getStatusArquivo();
 
+            
 
-
-
-
-            $stmt = $pdo->prepare("  UPDATE arquivo set   status_arquivo=13  where id_arquivo = ? ");
-
+            $stmt = $pdo->prepare("  UPDATE arquivo set   status_arquivo=:status_arquivo  where id_arquivo = :id_arquivo ");
 
             //corrigir isto aqui
-            $stmt->bindParam(1,  $id_arquivo, PDO::PARAM_LOB);
-
-
+            $stmt->bindParam(':id_arquivo',  $id_arquivo, PDO::PARAM_INT);
+            $stmt->bindParam(':status_arquivo',  $id_status, PDO::PARAM_INT);
 
             if ($stmt->execute()) {
                 return true;

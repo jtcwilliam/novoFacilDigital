@@ -82,6 +82,12 @@ if ($_SESSION['usuarioLogado']['dados'][0]['tipo_pessoa'] != 4 && $_SESSION['usu
                 <input type="hidden" id="acaoComuniqueSE" />
 
 
+                <!-- flag com ação para comunique-se excluir arquivo -->
+                <input type="text" id="mandaStatus" />
+
+
+
+
                 <textarea rows="5" id="mensagemComuniqueArquivo"></textarea>
                 <Br>
                 <a class="button" style="width: 100%;" onclick="enviarEmailComuniqueSe()"> Enviar Comunicado ao Cidadão</a>
@@ -494,6 +500,8 @@ if ($_SESSION['usuarioLogado']['dados'][0]['tipo_pessoa'] != 4 && $_SESSION['usu
 
                 solicitacao,
 
+                mandaStatus: $('#mandaStatus').val(),
+
                 codigoId: $('#aquivoPraSolicitar').val(), //codigo id do arquivo para alteracao de arquivo  // ou codigo do tipo de documento para solicitação de arquivo
 
                 acaoComuniqueSE: $('#acaoComuniqueSE').val(),
@@ -506,11 +514,14 @@ if ($_SESSION['usuarioLogado']['dados'][0]['tipo_pessoa'] != 4 && $_SESSION['usu
                 type: 'POST',
                 url: 'ajax/comuniqueSeController.php',
                 data: formData,
-                dataType: 'json',
+                dataType: 'html',
                 encode: true
             }).done(function(data) {
 
 
+
+             
+                
                 console.log(data);
 
 

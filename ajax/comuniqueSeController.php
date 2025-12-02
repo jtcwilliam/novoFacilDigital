@@ -19,6 +19,8 @@ $objLog = new Log();
 $objDocumentos = new Documentos();
 
 
+
+//funcao para solicitar arquivo que nao foi anexo
 if (isset($_POST['acaoComuniqueSE']) &&  $_POST['acaoComuniqueSE'] == 'solicitarArquivo') {
 
     $tipoDocumento = $objDocumentos->trazerDocumentos(' where id_doc=' . $_POST['codigoId']);
@@ -89,23 +91,39 @@ if (isset($_POST['acaoComuniqueSE']) &&  $_POST['acaoComuniqueSE'] == 'solicitar
 }
 
 
-
+//funcao para solicitar arquivo que nao foi anexo
 if (isset($_POST['acaoComuniqueSE']) &&  $_POST['acaoComuniqueSE'] == 'alterarArquivo') {
 
+    
+    $statusArquivo = $_POST['mandaStatus'];
+
+
     $objArquivo->setIdArquivo($_POST['codigoId']);
+    $objArquivo->setStatusArquivo($statusArquivo);
+        
     if ($objArquivo->apagarArquivo()) {
 
         if (!session_start()) {
             session_start();
         }
 
+      
         //solicta dados do arquivo para gravar  no log
         $dadosArquivo = $objArquivo->dadosArquivoSolicitante($_POST['codigoId']);
 
+        
+
         $usuarioLog = $_SESSION['usuarioLogado']['dados'][0]['nome'];
         $nomeLog = 'Alteração do Arquivo' . $dadosArquivo[0]['nome_arquivo'];
-        $textoLog = $_POST['mensagemComuniqueArquivo'];
-        $statusLog = '12';
+        
+        if($statusArquivo == '13'){
+
+            $textoLog = 'Solicitamos Alteração de Arquivo';
+        }else
+        {
+            $textoLog = 'Solicitamos Exclusão de Arquivo';
+        }
+        
 
         setlocale(LC_TIME, 'pt_BR', 'pt_BR.utf-8', 'pt_BR.utf-8', 'portuguese');
         date_default_timezone_set('America/Sao_Paulo');
@@ -116,6 +134,7 @@ if (isset($_POST['acaoComuniqueSE']) &&  $_POST['acaoComuniqueSE'] == 'alterarAr
         $objLog->setNomeLog($nomeLog);
         $objLog->setTextoLog($textoLog);
         $objLog->setStatusLog($statusLog);
+        $objLog->setStatusLog($statusArquivo);
         $objLog->setDataLog($dataLog);
         $objLog->setIdArquivo($_POST['codigoId']);
 
@@ -128,7 +147,7 @@ if (isset($_POST['acaoComuniqueSE']) &&  $_POST['acaoComuniqueSE'] == 'alterarAr
         }
 
 
-
+ 
 
 
 

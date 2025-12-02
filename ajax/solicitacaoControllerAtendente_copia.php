@@ -78,6 +78,11 @@ if (isset($_POST['listarArquivosAtendente'])) {
 
     $arquivosNecessarios = $objArquivo->consultarListaAquivosNecessarios($_POST['solicitacao']);
 
+    echo '<pre>';
+
+    print_r($arquivosNecessarios);
+    echo '</pre>';
+
 
 
 
@@ -86,210 +91,129 @@ if (isset($_POST['listarArquivosAtendente'])) {
 ?>
 
     <div class="grid-x grid-margin-x">
-        <div class="small-2 cell "> status </div>
-        <div class="small-5 cell"> Documento</div>
+        <div class="small-1 cell ">status</div>
+        <div class="small-3 cell">Documento</div>
         <div class="small-1 cell">Visualizar</div>
         <div class="small-1 cell">Solicitar</div>
-        <div class="small-1 cell">Alterar</div>
         <div class="small-1 cell">Excluir</div>
+        <div class="small-1 cell">Documento</div>
         <div class="small-1 cell">Assinado?</div>
     </div>
-
-    <?php
-
+    <table>
 
 
 
-
-    foreach ($arquivosNecessarios as $key => $value) { ?>
-        <?php
-        $arquivos = $objArquivo->consultaArquivosParaComuniquese($_POST['solicitacao'], $value['id_documento']);
-
-        //verifica se o arquivo foi postado
-        if (isset($arquivos[0])) {
-            //se este arquivo nao esta ativo, ou seja, se ele foi `reclamado` pelo atendente, muda a cor '
-            if ($arquivos[0]['status_arquivo'] != '1') {
-
-                $linhaStatusArquivos = ' style=" color: red; font-weight: 300"  ';
-            } else {
-                //se nao, essta tudo certo
-                $linhaStatusArquivos = ' style=""  ';
-            }
+        <thead>
+            <th>Status</th>
+            <th>Documento</th>
+            <th></th>
+            <th> Arquivo</th>
+            <th>Alterar Arquivo</th>
+            <th></th>
+            <th> Digital?</th>
+        </thead>
+        <tbody>
+            <?php
 
 
-            //se existe arquivo na linha que esta sendo rodada
-            if (!empty($arquivos)) {
 
-                //se o arquivo nao esta com assinatura digital, boa, deixa o statuso nao, esse status permite imprimir no relatorio unificado
-                if ($arquivos[0]['assinado_digital'] == 0) {
-                    $assinaturaDigital = 'Não';
-                    $statusArquivo = 1;
+
+
+            foreach ($arquivosNecessarios as $key => $value) { ?>
+
+                <?php
+
+                $arquivos = $objArquivo->consultaArquivosParaComuniquese($_POST['solicitacao'], $value['id_documento']);
+
+
+                if (isset($arquivos[0])) {
+                    if ($arquivos[0]['status_arquivo'] != '1') {
+
+                        $linhaStatusArquivos = ' style="background-color: #f89d47ff; color: Black"  ';
+                    } else {
+                        $linhaStatusArquivos = ' style=""  ';
+                    }
+
+
+                    if (!empty($arquivos)) {
+
+                        if ($arquivos[0]['assinado_digital'] == 0) {
+                            $assinaturaDigital = 'Não';
+                            $statusArquivo = 1;
+                        } else {
+                            $assinaturaDigital = 'Sim';
+                            $statusArquivo = 0;
+                        }
+
+
+
+                        echo '  <tr   ' . $linhaStatusArquivos . '>
+                        <td   ><b>' . $arquivos[0]['descricao_status'] . '</b> </td>
+                        <td    ' . $linhaStatusArquivos . ' > <b>' . $arquivos[0]['nome_arquivo'] . '</b></td>
+                        <td     ' . $linhaStatusArquivos . '>  <center><a    target="_blank" href="' . $arquivos[0]['arquivo'] . '" >   <h4><i ' . $linhaStatusArquivos . ' class="fi-zoom-in large"></i></h4> </a> </center> </td>
+                        <td     ' . $linhaStatusArquivos . '> <center>-</center>  </td>
+                        <td     ' . $linhaStatusArquivos . '> <center>Alterar</center>  </td>
+
+                        <td   ' . $linhaStatusArquivos . '><center>    
+                            <a  ' . $linhaStatusArquivos .
+                            ' onclick="$(\'#modalComunicaArquivo\').foundation(\'open\');  
+                              $(\'#nomeDoArquivoEnvio\').html(\'Substituir Arquivo  ' . $arquivos[0]['nome_arquivo'] . '\'); 
+                              $(\'#acaoComuniqueSE\').val(\'alterarArquivo\');  $(\'#aquivoPraSolicitar\').val(' .   $arquivos[0]['id_arquivo']  . ');    
+                                  " ><h4><i class="fi-x large"></i></h4></a>
+                        </center> </td>
+
+                        <td  ' . $linhaStatusArquivos . '><center>    
+                            <a  ' . $linhaStatusArquivos . ' onclick="arquivoAssinaturaDigital(' .   $arquivos[0]['id_arquivo']  . ',' . $statusArquivo . ');        " ><h4>' . $assinaturaDigital . '</h4></a>
+                        </center> </td>
+                    
+                    
+                    
+                </tr>';
+                    }
                 } else {
-                    //se o arquivo esta com assinatura digital, ai deu ruim, com esse status nao pode imprimir
-                    $assinaturaDigital = 'Sim';
-                    $statusArquivo = 0;
+
+                    echo '   <tr>
+
+
+            <td > 
+            Nulo </td>
+                                <td  >' .  $value['descricao_doc'] . '</td>
+                                <td  >
+                                    <center> - </center>
+                                </td>
+                                <td  >
+                               
+                                    <center><a onclick="  $(\'#acaoComuniqueSE\').val(\'solicitarArquivo\');  $(\'#nomeDoArquivoEnvio\').html(\'Solicitar Arquivo  ' . $value['descricao_doc'] . '\'); 
+                                      $(\'#aquivoPraSolicitar\').val(' .  $value['id_documento'] . ');  $(\'#modalComunicaArquivo\').foundation(\'open\');">  <h4><i class="fi-megaphone large"></i></h4></a> </center> 
+                                </td>
+                                <td  >
+                                    <center> - </center>
+                                </td>
+                                 <td  >
+                                    <center> x </center>
+                                </td>
+                                 <td  >
+                                    <center> x </center>
+                                </td>
+
+                            </tr> ';
                 }
 
 
-                //exibição dos arquivos
-        ?>
-
-
-                <div class="grid-x grid-margin-x" <?= $linhaStatusArquivos ?>>
-
-                    <!-- status do arquivo -->
-                    <div class="small-2 cell "><?= $arquivos[0]['descricao_status'] ?> </div>
-
-
-                    <!-- descricao do arquivo -->
-                    <div class="small-5 cell"><?= $value['descricao_doc']   ?> </div>
-
-
-                    <!-- visualizacao do arquivo -->
-                    <div class="small-1 cell">
-
-                        <a target="_blank" href="<?= $arquivos[0]['arquivo'] ?>">
-                            <h4><i class="fi-zoom-in large" <?= $linhaStatusArquivos ?>></i></h4>
-                        </a>
-
-                    </div>
-
-                    <!-- solicitacao   envio do arquivo -->
-                    <div class="small-1 cell">
 
 
 
-
-
-                    </div>
-
-                    <div class="small-1 cell">
-
-
-                        <a onclick="   $('#modalComunicaArquivo').foundation('open');  
-                                                $('#nomeDoArquivoEnvio').html('Substituir Arquivo  <?= $arquivos[0]['nome_arquivo'] ?>'); 
-                                                $('#acaoComuniqueSE').val('alterarArquivo'); 
-                                                $('#mandaStatus').val('13');   
-                                                $('#aquivoPraSolicitar').val('<?= $arquivos[0]['id_arquivo'] ?>');">
-                            <h4>
-                                <i class="fi-x large" <?= $linhaStatusArquivos ?>></i>
-                            </h4>
-                        </a>
-
-
-
-
-
-                    </div>
-
-
-                    <!-- solicitacao   exclusao do arquivo -->
-                    <div class="small-1 cell">
-
-                        <a onclick="   $('#modalComunicaArquivo').foundation('open');  
-                                                $('#nomeDoArquivoEnvio').html('Substituir Arquivo  <?= $arquivos[0]['nome_arquivo'] ?>'); 
-                                                $('#acaoComuniqueSE').val('alterarArquivo');  
-                                                $('#mandaStatus').val('4');  
-                                                $('#aquivoPraSolicitar').val('<?= $arquivos[0]['id_arquivo'] ?>');">
-                            <h4>
-                                <i class="fi-x large" <?= $linhaStatusArquivos ?>></i>
-                            </h4>
-                        </a>
-
-                    </div>
-
-                    <div class="small-1 cell">
-                        <a onclick="arquivoAssinaturaDigital('<?= $arquivos[0]['id_arquivo']  . ',' . $statusArquivo ?>');        ">
-                            <?= $assinaturaDigital ?>
-                        </a>
-                    </div>
-                </div>
-            <?php
-            } else { ?>
-
-
-
-
-
-
-
+                ?>
 
 
 
             <?php
+
             }
-        } else { ?>
 
-            <div class="grid-x grid-margin-x">
-
-                <!-- status do arquivo -->
-                <div class="small-2 cell "> Arquivo Não Enviado</div>
-
-
-                <!-- descricao do arquivo -->
-                <div class="small-5 cell"><?= $value['descricao_doc']   ?> </div>
-
-
-                <!-- visualizacao do arquivo -->
-                <div class="small-1 cell">
-
-                    -
-
-                </div>
-
-                <!-- solicitacao   envio do arquivo -->
-                <div class="small-1 cell">
-
-                    <a onclick="    $('#acaoComuniqueSE').val('solicitarArquivo');  
-                                        $('#nomeDoArquivoEnvio').html('Solicitar Arquivo  <?= $value['descricao_doc'] ?>'); 
-                                        $('#aquivoPraSolicitar').val('<?= $value['id_documento'] ?>');  
-                                        $('#modalComunicaArquivo').foundation('open');">
-                        <h4>
-                            <i class="fi-megaphone large"></i>
-                        </h4>
-                    </a>
-
-
-
-                </div>
-
-                <div class="small-1 cell">
-
-                    -
-
-                </div>
-
-
-                <!-- solicitacao   exclusao do arquivo -->
-                <div class="small-1 cell">
-
-                    -
-
-                </div>
-
-                <div class="small-1 cell">
-                    -
-                </div>
-            </div>
-
-
-
-
-
-        <?php
-
-        }
-
-
-
-
-        ?>
-
-
-
-    <?php
-
-    } ?>
+            ?>
+        </tbody>
+    </table>
 <?php
 
 
@@ -332,26 +256,20 @@ if (isset($_POST['exibirSolicitacaoAtendente'])) {
             </div>
 
 
+            <div class="small-12 large-12 cell">
+                <label style="color: #56658E; font-size: 1.1em; ">Documentos Anexos a Solicitacao</label>
+
+                <table>
+                    <tbody>
+                        <div id="tabelaArquivos"></div>
+                    </tbody>
+                </table>
+
+
+            </div>
 
 
 
-
-
-        </div>
-    </fieldset>
-
-
-    <fieldset class="fieldset" id="fieldsetDocumentacao" style="display: block; font-size:1em">
-        <legend>
-            <h4 id="" style="color: #56658E; "><b>Documentos Anexos a Solicitacao</b></h4>
-        </legend>
-
-
-        <div class="small-12 large-12 cell">
-            <label style="color: #56658E; font-size: 1.1em; "></label>
-
-
-            <div id="tabelaArquivos"></div>
 
 
         </div>

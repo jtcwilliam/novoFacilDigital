@@ -298,7 +298,7 @@ class Arquivo
             $stmt->bindParam(5,  $status_arquivo, PDO::PARAM_INT);
             $stmt->bindParam(6,  $id_tipo_documento, PDO::PARAM_INT);
             $stmt->bindParam(7,  $assinado_digital, PDO::PARAM_INT);
- 
+
 
 
 
@@ -308,8 +308,8 @@ class Arquivo
 
             if ($stmt->execute()) {
 
-                 $newUserId = $stmt->fetchColumn();
- 
+                $newUserId = $stmt->fetchColumn();
+
 
                 return json_encode(array('ultimoID' => $newUserId, 'retorno' => true));
 
@@ -334,7 +334,7 @@ class Arquivo
             $id_arquivo =   $this->getIdArquivo();
             $id_status = $this->getStatusArquivo();
 
-            
+
 
             $stmt = $pdo->prepare("  UPDATE arquivo set   status_arquivo=:status_arquivo  where id_arquivo = :id_arquivo ");
 
@@ -385,6 +385,8 @@ class Arquivo
         }
     }
 
+
+    //area de atualizacao de arquivo do comunique-se que envia do email
     public function  atualizarAquivoSolicitacao()
     {
         try {
@@ -396,23 +398,35 @@ class Arquivo
 
             $id_arquivo =   $this->getIdArquivo();
             $arquivo = $this->getArquivo();
-            $tipo_arquivo = $this->getTipoArquivo();
+            $tipo_arquivo = $this->getTipoArquivo(
 
-            $stmt = $pdo->prepare("  UPDATE arquivo set arquivo = ?, tipo_arquivo=?,  status_arquivo='1' where id_arquivo = ?;
-             Update log set statusLog=1 where id_arquivo =?  ");
+
+
+            );
+            $statusArquivo = $this->getStatusArquivo();
+
+
+
+            $stmt = $pdo->prepare("  UPDATE arquivo set arquivo = ?, tipo_arquivo=?,  status_arquivo=? where id_arquivo = ?");
 
 
 
             //corrigir isto aqui
-            $stmt->bindParam(1,  $arquivo, PDO::PARAM_LOB);
+            $stmt->bindParam(1,  $arquivo, PDO::PARAM_INT);
             $stmt->bindParam(2,  $tipo_arquivo, PDO::PARAM_STR);
-            $stmt->bindParam(3,  $id_arquivo, PDO::PARAM_INT);
+            $stmt->bindParam(3,  $statusArquivo, PDO::PARAM_INT);
             $stmt->bindParam(4,  $id_arquivo, PDO::PARAM_INT);
 
             if ($stmt->execute()) {
 
+                $stmt_b = $pdo->prepare("  UPDATE log set status_log=1 where id_arquivo =? ");
 
-                return true;
+
+                $stmt_b->bindParam(1,  $arquivo, PDO::PARAM_INT);
+
+                if ($stmt_b->execute()) {
+                    return true;
+                }
             }
         } catch (PDOException $e) {
             echo 'Error: ' . $e->getMessage();

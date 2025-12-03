@@ -149,7 +149,7 @@ class Log
 
             $pdo = $this->getPdoConn();
 
-            $stmt = $pdo->prepare("select * from log where statusLog != $id and  idSolicitacao = $idSolicitacao    ");
+            $stmt = $pdo->prepare("select * from log where status_log != $id and  id_solicitacao = $idSolicitacao    ");
 
             $stmt->execute();
 

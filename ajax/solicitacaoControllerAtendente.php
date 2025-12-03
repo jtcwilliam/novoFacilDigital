@@ -276,29 +276,21 @@ if (isset($_POST['listarArquivosAtendente'])) {
 
 
 
-        <?php
-
-        }
-
-
-
-
-        ?>
-
-
-
     <?php
 
-    } ?>
+        }
+    }
+
+
+
+    ?>
+
+
+    <a class="button" style="width: 100%; background-color: green;  border-radius: 30px;" onclick="finalizarComuniqueSe(<?= $_POST['solicitacao'] ?>)">
+        <h5>Clique aqui para enviar "comunique-se" ao cidadão </h5>
+    </a>
+
 <?php
-
-
-
-
-
-
-
-
 
 
     exit();

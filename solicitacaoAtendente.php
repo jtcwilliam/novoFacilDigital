@@ -514,16 +514,11 @@ if ($_SESSION['usuarioLogado']['dados'][0]['tipo_pessoa'] != 4 && $_SESSION['usu
                 type: 'POST',
                 url: 'ajax/comuniqueSeController.php',
                 data: formData,
-                dataType: 'html',
+                dataType: 'json',
                 encode: true
             }).done(function(data) {
 
-
-
-             
-                
-                console.log(data);
-
+ 
 
                 if (data.retorno == true) {
                     alert('Informação Registrada com Sucesso');

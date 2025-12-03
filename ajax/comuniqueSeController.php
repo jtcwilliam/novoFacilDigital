@@ -133,7 +133,7 @@ if (isset($_POST['acaoComuniqueSE']) &&  $_POST['acaoComuniqueSE'] == 'alterarAr
         $objLog->setnome_pessoaLog($usuarioLog);
         $objLog->setNomeLog($nomeLog);
         $objLog->setTextoLog($textoLog);
-        $objLog->setStatusLog($statusLog);
+        
         $objLog->setStatusLog($statusArquivo);
         $objLog->setDataLog($dataLog);
         $objLog->setIdArquivo($_POST['codigoId']);
@@ -230,8 +230,8 @@ if (isset($_POST['enviarEmail'])) {
         ?>
         <h1>Olá Somos da Equipe Mais Digital da Prefeitura de Guarulhos </h1>
 
-        <p style="font-size: 1.3em; line-height: 1.5em;">Verificamos algumas inconsistencias na Solicitação da <b> <?= $dadosSolicitacao[0]['descricaoCarta']   ?></b>
-            que você realizou! <br>Não se preocupe! Nós vamos te dizer o que aconteceu e os arquivos que você precisa enviar.
+        <p style="font-size: 1.3em; line-height: 1.5em;">Verificamos algumas inconsistencias na Solicitação da <b> <?= $dadosSolicitacao[0]['nome_servico']   ?></b>
+            que você realizou! <br>Não se preocupe! Nós vamos te dizer o que aconteceu e te ajudar a resolver esta solicitação!
             Abaixo, segue a lista dos documentos que você precisa enviar.<br>
 
 
@@ -245,7 +245,7 @@ if (isset($_POST['enviarEmail'])) {
 
 
             foreach ($dadosLog['dados'] as $key => $value) {
-                echo '<li><b>' . $value['nomeLog'] . '</b><br>' . $value['textoLog'];
+                echo '<li><b>' . $value['nome_log'] . '</b><br>' . $value['texto_log'];
 
 
                 echo '<br></li>';

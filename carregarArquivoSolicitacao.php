@@ -358,7 +358,7 @@ include_once 'includes/head.php';
                     data: formData,
                     processData: false,
                     contentType: false,
-                    dataType: 'json',
+                    dataType: 'html',
                     success: function(response) {
                         console.log(response);
 

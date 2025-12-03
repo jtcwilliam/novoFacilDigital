@@ -281,10 +281,11 @@ class Solicitacao
 
 
 
-            $sql = " select lc.descricaoCarta,  sl.descricaoSolicitacao  ,lc.nomeSecretaria, sl.solicitante, sl.tipoDocumento,
-             sl.documentoPublico, dc.descricaoDoc, ps.nome_pessoa, ps.email_usuario, sl.docSolicitacaoPessoal, sl.assuntoSolicitacao
-                    from solicitacao sl inner join  linkCartaServico lc on lc.idlinkCartaServico = sl.assuntoSolicitacao
-                    inner join documentos dc on dc.idDoc = sl.tipoDocumento inner join pessoa ps on ps.id_pessoa = sl.solicitante 
+            $sql = " select ncs.nome_servico ,  sl.descricao_solicitacao , ncs.id_secretaria , sl.solicitante, sl.tipo_documento ,
+             sl.documento_publico , dc.descricao_doc , ps.nome_pessoa, ps.email_usuario, sl.doc_solicitacao_pessoal , sl.id_carta_servico 
+                    from solicitacao sl inner join  carta_servico cs on cs.id_carta_servico = sl.id_carta_servico 
+                    inner join nome_carta_servico ncs on ncs.id_nome_carta_servico = cs.id_nome_carta_servico            
+                    inner join documento dc on dc.id_doc = sl.tipo_documento inner join pessoa ps on ps.id_pessoa = sl.solicitante 
                     where id_solicitacao = " . $id_solicitacao;
 
 

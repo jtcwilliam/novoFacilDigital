@@ -114,11 +114,11 @@ if (isset($_POST['criaCampoArquivoComuniqueSeUnico'])) {
 
             <div class=" small-12 large-12 cell" style="display: grid; align-items: center;">
                 <label>
-                    <h5><b><i>"<?= $value['nomeArquivo'] ?>"</i></b></h5>
+                    <h5><b><i>"<?= $value['nome_arquivo'] ?>"</i></b></h5>
                 </label>
                 <input type="file" id="fileInput<?= $i ?>" name="file<?= $i ?>" class="button" style="background-color:#4c5e6a; height: 3em; "
 
-                    onchange="subirArquivo('file<?= $i ?>','fileInput<?= $i ?>' ,  <?= $value['idArquivo'] ?> )  ">
+                    onchange="subirArquivo('file<?= $i ?>','fileInput<?= $i ?>' ,  <?= $value['id_arquivo'] ?> )  ">
 
 
                 <p class="button success mensagemB " id="mensagem<?= $i ?>"> Arquivo Carregado com Sucesso</p>
@@ -127,7 +127,7 @@ if (isset($_POST['criaCampoArquivoComuniqueSeUnico'])) {
             <div class="small-12 large-9 cell">
                 <label>
                     <!-- campo que pega o tipo do documento para ser gravado no arquivo -->
-                    <input type='hidden' id='idTipoDocumento<?= $i ?>' value='<?= $value['idDocumento']  ?>' />
+                    <input type='hidden' id='idTipoDocumento<?= $i ?>' value='<?= $value['id_documento']  ?>' />
 
                 </label>
             </div>
@@ -245,7 +245,84 @@ if (isset($_POST['verificarAssinaturaDigital'])) {
 }
 
 
+
+
 if (isset($_POST['carregarArquivoApagadoPeloAtendenteSolicitante'])) {
+
+
+    //mudar o nome do arquivo para  nao ficar dificil
+    $nomeArquivoSalvar = md5($_POST['idSolicitacao'] . date("Y-m-d H:i:s"));
+
+    //pgar o conteudo do arquivo para inserir
+    $file = file_get_contents($_FILES['file']['tmp_name']);
+
+
+    //pegar o tipo do arquivo
+    $arquivoTipo =  $_FILES['file']['type'];
+
+    //destruir o nomne do tipo de arquivo
+    $tipoDeArquivo = explode('/', $arquivoTipo);
+
+
+    //pegar somente a extensao
+    $tipoArquivo = $tipoDeArquivo[count($tipoDeArquivo) - 1];
+ 
+    //colocar este tipo de arquivo na pasta
+    move_uploaded_file($_FILES['file']['tmp_name'], '../files/' . $nomeArquivoSalvar . '.' . $tipoArquivo);
+ 
+ 
+
+
+    //o que vai
+
+    //informo o tipo de arquivo para fins de relatorio
+    $objArquivo->setTipoArquivo($tipoArquivo);
+    
+    //insiro o id do arquivo para saber qual vamos buscar
+    $objArquivo->setIdArquivo($_POST['idArquivo']);
+
+    $objArquivo->setStatusArquivo('1');
+
+
+    //gravo a informa
+    $objArquivo->setArquivo('files/' . $nomeArquivoSalvar . '.' . $tipoArquivo);
+
+
+    
+    
+
+
+
+
+    
+    if ($objArquivo->atualizarAquivoSolicitacao()) {
+
+
+
+        echo json_encode(array('retorno' => true));
+    }
+
+
+
+
+    //$dadosDoInsert = $objArquivo->inserirArquivos();
+
+    //$arr = json_decode($dadosDoInsert, true);
+
+
+
+
+
+
+    /* ver da qui
+
+
+
+    
+
+
+
+
 
     $arquivoTipo =  $_FILES['file']['type'];
 
@@ -260,7 +337,7 @@ if (isset($_POST['carregarArquivoApagadoPeloAtendenteSolicitante'])) {
 
     $file = file_get_contents($_FILES['file']['tmp_name']);
     $objArquivo->setArquivo($file);
-    $objArquivo->setIdArquivo($_POST['idArquivo']);
+
 
 
 
@@ -271,6 +348,9 @@ if (isset($_POST['carregarArquivoApagadoPeloAtendenteSolicitante'])) {
 
         echo json_encode(array('retorno' => true));
     }
+        
+
+    */
 
     exit();
 }

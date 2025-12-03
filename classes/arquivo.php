@@ -419,10 +419,10 @@ class Arquivo
 
             if ($stmt->execute()) {
 
-                $stmt_b = $pdo->prepare("  UPDATE log set status_log=1 where id_arquivo =? ");
+                $stmt_b = $pdo->prepare("  UPDATE log set status_log=1 where id_arquivo =:idArquivo ");
 
 
-                $stmt_b->bindParam(1,  $arquivo, PDO::PARAM_INT);
+                $stmt_b->bindParam(':idArquivo',  $id_arquivo, PDO::PARAM_INT);
 
                 if ($stmt_b->execute()) {
                     return true;

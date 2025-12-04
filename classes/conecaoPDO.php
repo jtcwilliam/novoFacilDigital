@@ -29,12 +29,12 @@ class Conexao
 
         try {
 
-
+/*
             require_once '../vendor/autoload.php';
 
             $dotenv = Dotenv\DotEnv::createImmutable(__DIR__);
 
-            $dotenv->load();
+            $dotenv->load();*/
 
 
             //  servidor desenvolvimento

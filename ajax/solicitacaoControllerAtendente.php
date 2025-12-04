@@ -85,14 +85,14 @@ if (isset($_POST['listarArquivosAtendente'])) {
 
 ?>
 
-    <div class="grid-x grid-margin-x">
-        <div class="small-2 cell "> status </div>
-        <div class="small-5 cell"> Documento</div>
-        <div class="small-1 cell">Visualizar</div>
-        <div class="small-1 cell">Solicitar</div>
-        <div class="small-1 cell">Alterar</div>
-        <div class="small-1 cell">Excluir</div>
-        <div class="small-1 cell">Assinado?</div>
+    <div class="grid-x grid-margin-x" style="font-weight: 600;">
+        <div class="small-2 cell "> Status do Arquivo </div>
+        <div class="small-4 cell"> Documento</div>
+        <div class="small-1 cell">Visualizar <br>Arquivo</div>
+        <div class="small-1 cell">Solicitar<br>Arquivo </div>
+        <div class="small-1 cell">Alterar<br>Arquivo</div>
+        <div class="small-1 cell">Excluir<br>Arquivo</div>
+        <div class="small-1 cell">Assinado Digital</div>
     </div>
 
     <?php
@@ -101,16 +101,23 @@ if (isset($_POST['listarArquivosAtendente'])) {
 
 
 
+    $verificarComuniqueSe = false;
+
     foreach ($arquivosNecessarios as $key => $value) { ?>
         <?php
         $arquivos = $objArquivo->consultaArquivosParaComuniquese($_POST['solicitacao'], $value['id_documento']);
 
+        $statusSolicitacaoNegada = array(0, 2, 12, 13);
+
+
+
         //verifica se o arquivo foi postado
         if (isset($arquivos[0])) {
             //se este arquivo nao esta ativo, ou seja, se ele foi `reclamado` pelo atendente, muda a cor '
-            if ($arquivos[0]['status_arquivo'] != '1') {
+            if (in_array($arquivos[0]['status_arquivo'], $statusSolicitacaoNegada)) {
 
                 $linhaStatusArquivos = ' style=" color: red; font-weight: 300"  ';
+                $verificarComuniqueSe = true;
             } else {
                 //se nao, essta tudo certo
                 $linhaStatusArquivos = ' style=""  ';
@@ -142,7 +149,7 @@ if (isset($_POST['listarArquivosAtendente'])) {
 
 
                     <!-- descricao do arquivo -->
-                    <div class="small-5 cell"><?= $value['descricao_doc']   ?> </div>
+                    <div class="small-4 cell"><?= $value['descricao_doc']   ?> </div>
 
 
                     <!-- visualizacao do arquivo -->
@@ -227,7 +234,7 @@ if (isset($_POST['listarArquivosAtendente'])) {
 
 
                 <!-- descricao do arquivo -->
-                <div class="small-5 cell"><?= $value['descricao_doc']   ?> </div>
+                <div class="small-4 cell"><?= $value['descricao_doc']   ?> </div>
 
 
                 <!-- visualizacao do arquivo -->
@@ -276,19 +283,28 @@ if (isset($_POST['listarArquivosAtendente'])) {
 
 
 
-    <?php
+        <?php
 
         }
     }
 
 
+    echo '<h1>' . $verificarComuniqueSe . '</h1>';
 
-    ?>
+    if ($verificarComuniqueSe == true) {
+        ?>
+
+            <a class="button" style="width: 100%; background-color: green;  border-radius: 30px;" onclick="finalizarComuniqueSe(<?= $_POST['solicitacao'] ?>)">
+                <h5>Clique aqui para enviar "comunique-se" ao cidadão </h5>
+            </a>
+        <?php
+
+        }
 
 
-    <a class="button" style="width: 100%; background-color: green;  border-radius: 30px;" onclick="finalizarComuniqueSe(<?= $_POST['solicitacao'] ?>)">
-        <h5>Clique aqui para enviar "comunique-se" ao cidadão </h5>
-    </a>
+            ?>
+
+
 
 <?php
 

@@ -398,11 +398,7 @@ class Arquivo
 
             $id_arquivo =   $this->getIdArquivo();
             $arquivo = $this->getArquivo();
-            $tipo_arquivo = $this->getTipoArquivo(
-
-
-
-            );
+            $tipo_arquivo = $this->getTipoArquivo();
             $statusArquivo = $this->getStatusArquivo();
 
 
@@ -420,18 +416,21 @@ class Arquivo
             if ($stmt->execute()) {
 
 
+
+
                 //inserir o log como feito abaixo
+
                 // $stmt = $pdo->prepare("  INSERT INTO  log (nome_pessoa_log, nome_log,texto_log , status_log , data_log, id_solicitacao ,tipo_pessoa_log, id_arquivo   )   values (?,?,?,?,?,?,?,?) ");
 
                 //substituir esse update
-                $stmt_b = $pdo->prepare("  UPDATE log set status_log=1 where id_arquivo =:idArquivo ");
+                //     $stmt_b = $pdo->prepare("  UPDATE log set status_log=1 where id_arquivo =:idArquivo ");
 
 
-                $stmt_b->bindParam(':idArquivo',  $id_arquivo, PDO::PARAM_INT);
+                //   $stmt_b->bindParam(':idArquivo',  $id_arquivo, PDO::PARAM_INT);
 
-                if ($stmt_b->execute()) {
+                
                     return true;
-                }
+                
             }
         } catch (PDOException $e) {
             echo 'Error: ' . $e->getMessage();

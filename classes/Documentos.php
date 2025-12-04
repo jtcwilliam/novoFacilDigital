@@ -133,7 +133,9 @@ class Documentos
 
             $pdo = $this->getPdoConn();
 
-            $sql = "select id_arquivo,nome_arquivo from arquivo where id_solicitacao =" . $idSolicitacao . "  and  status_arquivo in (12, 13) ";
+            $sql = "select  s.descricao_status, s.id_status   ,id_arquivo,nome_arquivo, ls.solicitante, p.nome_pessoa  from arquivo ar inner join status s   on ar.status_arquivo  = s.id_status inner join solicitacao ls on ls.id_solicitacao  = ar.id_solicitacao  inner join pessoa p on ls.solicitante  = p.id_pessoa  where ls.id_solicitacao =" . $idSolicitacao . "  and  status_arquivo in (12, 13) ";
+
+
 
             $stmt = $pdo->prepare($sql);
 

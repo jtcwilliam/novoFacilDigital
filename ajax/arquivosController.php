@@ -3,9 +3,11 @@
 
 include_once '../classes/arquivo.php';
 include_once '../classes/Documentos.php';
+include_once '../classes/log.php';
 
 $objArquivo = new Arquivo();
 $objDOcumento = new Documentos();
+$objLog = new Log();
 
 
 if (isset($_POST['criaCampoArquivo'])) {
@@ -84,6 +86,9 @@ if (isset($_POST['criaCampoArquivoComuniqueSeUnico'])) {
 
 
     $criarCaixaArquivo =  $objDOcumento->montarArquivosDoComuniqueSe($_POST['idSolicitacao']);
+ 
+
+    
 
 
 
@@ -116,9 +121,10 @@ if (isset($_POST['criaCampoArquivoComuniqueSeUnico'])) {
                 <label>
                     <h5><b><i>"<?= $value['nome_arquivo'] ?>"</i></b></h5>
                 </label>
+                
                 <input type="file" id="fileInput<?= $i ?>" name="file<?= $i ?>" class="button" style="background-color:#4c5e6a; height: 3em; "
 
-                    onchange="subirArquivo('file<?= $i ?>','fileInput<?= $i ?>' ,  <?= $value['id_arquivo'] ?> )  ">
+                    onchange="subirArquivo('file<?= $i ?>','fileInput<?= $i ?>' ,  <?= $value['id_arquivo']  ?>, '<?= $value['descricao_status']  ?>',  '<?= $value['nome_pessoa']  ?>',  '<?= $value['id_status']  ?>'  )  ">
 
 
                 <p class="button success mensagemB " id="mensagem<?= $i ?>"> Arquivo Carregado com Sucesso</p>
@@ -249,6 +255,17 @@ if (isset($_POST['verificarAssinaturaDigital'])) {
 
 if (isset($_POST['carregarArquivoApagadoPeloAtendenteSolicitante'])) {
 
+ 
+
+    echo '<pre>';
+
+    print_r($_POST);
+
+    echo '</pre>';
+
+
+    
+
 
     //mudar o nome do arquivo para  nao ficar dificil
     $nomeArquivoSalvar = md5($_POST['idSolicitacao'] . date("Y-m-d H:i:s"));
@@ -291,11 +308,50 @@ if (isset($_POST['carregarArquivoApagadoPeloAtendenteSolicitante'])) {
     
     
 
-
+            //nome_pessoa_log, nome_log,texto_log , status_log , data_log, id_solicitacao ,tipo_pessoa_log, id_arquivo
 
 
     
     if ($objArquivo->atualizarAquivoSolicitacao()) {
+
+
+        /*Array
+(
+    [idArquivo] => 45
+    [idSolicitacao] => 73
+    [status] => Alteração de Arquivo Solicitada
+    [nome_pessoa] => William Ferreira
+    [status_log] => 13
+
+        //$objLog->setnome_pessoaLog($_POST['nome_pessoa'])
+        
+
+         $usuarioLog =   $this->getnome_pessoaLog(); *
+            $nomeLog = $this->getNomeLog();
+            $textoLog = $this->getTextoLog();
+            $statusLog = $this->getStatusLog();
+            $dataLog = $this->getDataLog();
+            $tipo_pessoa = $this->gettipo_pessoaLog();
+            $idSolicitacao = $this->getSolicitacao();
+            $idArquivo = $this->getIdArquivo();
+
+
+        */
+
+            $objLog->setnome_pessoaLog($_POST['nome_pessoa']);
+            $objLog->setNomeLog($_POST['status']);
+            $objLog->setTextoLog('Envio do Arquivo Solicitado');
+            $objLog->setStatusLog('6');        
+            $objLog->setDataLog(date('Y-m-d H:i:s'));
+            $objLog->settipo_pessoaLog('1');
+            $objLog->setSolicitacao($_POST['idSolicitacao']);
+            $objLog->setIdArquivo($_POST['idArquivo']);
+
+        
+
+            
+
+        $objLog->inserirLog();
 
 
 

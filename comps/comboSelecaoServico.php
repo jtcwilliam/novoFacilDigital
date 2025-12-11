@@ -37,7 +37,7 @@
         </center>
     </div>
 
-    <input type="text" id="txtServicoSolicitar" value=""/>
+    <input type="hidden" id="txtServicoSolicitar" value=""/>
 
 </fieldset>
 

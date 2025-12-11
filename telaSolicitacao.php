@@ -334,7 +334,7 @@ echo '</pre>';
                 type: 'POST',
                 url: 'ajax/solicitacaoController.php',
                 data: formData,
-                dataType: 'html',
+                dataType: 'json',
                 encode: true
             })
             .done(function(data) {

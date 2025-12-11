@@ -83,7 +83,7 @@ if ($_SESSION['usuarioLogado']['dados'][0]['tipo_pessoa'] != 4 && $_SESSION['usu
 
 
                 <!-- flag com ação para comunique-se excluir arquivo -->
-                <input type="text" id="mandaStatus" />
+                <input type="hidden" id="mandaStatus" />
 
 
 
@@ -291,79 +291,7 @@ if ($_SESSION['usuarioLogado']['dados'][0]['tipo_pessoa'] != 4 && $_SESSION['usu
         <div class="small-12 large-4 cell">
             <input type="hidden" id="idSolicitacao" value="<?= $_GET['89a2e8ef07b59a9a87135b9e2fe979d4b40a616d'] ?>" />
 
-            <fieldset class="fieldset" id="fieldSolicitacao" style="display: block; font-size:1em; width: 100%;">
-                <legend>
-                    <h4 id="" onclick="$('#retorno').foundation('open')" style="color: #56658E; "><b>Ações</b></h4>
-                </legend>
-
-
-
-
-                <div class="grid-x  grid-padding-x">
-                    <div class="small-1 cell" style="   display: inline; align-content: center; text-align: justify;color: #56658E">
-                        <h2><i class="fi-folder-add large"></i></h2>
-                    </div>
-                    <div class="small-11 cell" style="display: inline; align-content: center; text-align: justify;color: #56658E">
-                        <a onclick="exbirArquivosDaSolicitacao($('#idSolicitacao').val())">
-                            <h4>Arquivos da Solicitação </h4>
-                        </a>
-                    </div>
-                </div>
-
-
-
-
-
-                <div class="grid-x  grid-padding-x" style="display: none;">
-                    <div class="small-1 cell" style="   display: inline; align-content: center; text-align: justify;color: #56658E">
-                        <h2><i class="fi-megaphone large"></i></h2>
-                    </div>
-                    <div class="small-11 cell" style="display: inline; align-content: center; text-align: justify;color: #56658E">
-                        <h4>Comunicar ao Cidadão </h4>
-                    </div>
-                </div>
-
-
-                <div class="grid-x  grid-padding-x" style="color: #56658E; display: none;">
-                    <div class="small-1 cell" style="   display: inline; align-content: center; text-align: justify;color: #56658E">
-                        <h2><i class="fi-archive large"></i></h2>
-                    </div>
-                    <div class="small-11 cell" style="display: inline; align-content: center; text-align: justify; color: #56658E;  ">
-                        <h4>Arquivar Solicitação </h4>
-                    </div>
-                </div>
-
-
-
-                <div class="grid-x  grid-padding-x" style="display: none;">
-                    <div class="small-1 cell" style="   display: inline; align-content: center; text-align: justify;color: #56658E">
-                        <h2><i class="fi-check large"></i></h2>
-                    </div>
-                    <div class="small-11 cell" style="display: inline; align-content: center; text-align: justify;color: #56658E">
-                        <h4>Aprovar Solicitação </h4>
-                    </div>
-                </div>
-
-                <div class="grid-x  grid-padding-x">
-                    <div class="small-1 cell" style="   display: inline; align-content: center; text-align: justify;color: #56658E">
-                        <h2><i class="fi-page-multiple large"></i></h2>
-                    </div>
-                    <div class="small-11 cell" style="display: inline; align-content: center; text-align: justify;color: #56658E">
-                        <a target="_blank" href="relatorio.php?idSolicitacao=<?= $_GET['89a2e8ef07b59a9a87135b9e2fe979d4b40a616d'] ?>">
-                            <h4>Relatório </h4>
-                        </a>
-                    </div>
-                </div>
-
-                <div class="grid-x  grid-padding-x" style="display: none;">
-                    <div class="small-1 cell" style="   display: inline; align-content: center; text-align: justify;color: #56658E">
-                        <h2><i class="fi-page-copy large"></i></h2>
-                    </div>
-                    <div class="small-11 cell" style="display: inline; align-content: center; text-align: justify;color: #56658E">
-                        <h4>Encaminhar para Processo SEI </h4>
-                    </div>
-                </div>
-            </fieldset>
+             
         </div>
     </div><?php
 
@@ -373,7 +301,7 @@ if ($_SESSION['usuarioLogado']['dados'][0]['tipo_pessoa'] != 4 && $_SESSION['usu
         $(document).ready(function() {
 
             exibirSolicitacao($('#idSolicitacao').val());
-            exbirArquivosDaSolicitacao($('#idSolicitacao').val())
+
 
 
         })
@@ -527,6 +455,7 @@ if ($_SESSION['usuarioLogado']['dados'][0]['tipo_pessoa'] != 4 && $_SESSION['usu
                 if (data.retorno == true) {
                     alert('Informação Registrada com Sucesso');
                     exbirArquivosDaSolicitacao($('#idSolicitacao').val())
+                    $('#modalComunicaArquivo').foundation('close');
                 }
 
             });
@@ -564,6 +493,8 @@ if ($_SESSION['usuarioLogado']['dados'][0]['tipo_pessoa'] != 4 && $_SESSION['usu
 
             });
         }
+
+        exbirArquivosDaSolicitacao($('#idSolicitacao').val())
     </script>
 </body>
 

@@ -196,12 +196,12 @@ if (isset($_POST['listarArquivosAtendente'])) {
                     <div class="small-1 cell">
 
                         <a onclick="   $('#modalComunicaArquivo').foundation('open');  
-                                                $('#nomeDoArquivoEnvio').html('Substituir Arquivo  <?= $arquivos[0]['nome_arquivo'] ?>'); 
+                                                $('#nomeDoArquivoEnvio').html('Cancelar o Arquivo  <?= $arquivos[0]['nome_arquivo'] ?>'); 
                                                 $('#acaoComuniqueSE').val('alterarArquivo');  
                                                 $('#mandaStatus').val('4');  
                                                 $('#aquivoPraSolicitar').val('<?= $arquivos[0]['id_arquivo'] ?>');">
                             <h4>
-                                <i class="fi-x large" <?= $linhaStatusArquivos ?>></i>
+                                <i class="fi-minus-circle large" <?= $linhaStatusArquivos ?>></i>
                             </h4>
                         </a>
 
@@ -427,59 +427,98 @@ if (isset($_POST['exibirSolicitacaoAtendente'])) {
                 $logs = $objLog->informarLogAtendente($_POST['idSolicitacao']);
 
 
-                foreach ($logs['dados'] as $key => $value) { ?>
+
+
+                if (isset($logs['dados'])) {
+
+                    //daqui
+                    foreach ($logs['dados'] as $key => $value) { ?>
+                        <div class="grid-x grid-padding-x">
+
+                            <div class="small-12 large-3 cell">
+                                <?php
+
+
+
+                                switch ($value['status_log']) {
+                                    case '6':
+
+                                        $styleLinha = ' style="color:green;"';
+                                        echo '<h5><i style="color:green; "  class="fi-check large">  - ' . $value['descricao_status'] . '</i></h5>';
+                                        break;
+
+                                    case '13':
+                                        $styleLinha = ' style="color:red;"';
+                                        echo '<h5><i style="color:red"  class="fi-page-doc large"> - ' . $value['descricao_status'] . '</i></h5>';
+                                        break;
+
+                                        
+                                    case '4':
+                                        $styleLinha = ' style="color:gray;"';
+                                        echo '<h5><i style="color:gray"  class="fi-x-circle large"> - ' . $value['descricao_status'] . '</i></h5>';
+                                        break;
+
+                                    default:
+                                        # code...
+                                        break;
+                                }
+
+
+
+                                ?>
+                            </div>
+
+
+
+                            <div class="small-12 large-4 cell" <?= $styleLinha ?>>
+                                <?= $value['nome_log']  ?>
+                            </div>
+
+
+                            <div class="small-12 large-1 cell" <?= $styleLinha ?>>
+                                <?= $value['data_log']  ?>
+                            </div>
+
+                            <div class="small-12 large-2 cell" <?= $styleLinha ?>>
+                                <?= $value['nome_pessoa_log']  ?>
+                            </div>
+
+
+                            <div class="small-12 large-2 cell" <?= $styleLinha ?>>
+                                <?= $value['descricao_tipo_pessoa']  ?>
+                            </div>
+
+
+                        </div>
+
+                    <?php
+
+
+                        echo '<br>';
+                    }
+                } else {
+                    ?>
+
+
                     <div class="grid-x grid-padding-x">
 
-                        <div class="small-12 large-1 cell">
-                            <?php
-
-
-
-                            switch ($value['status_log']) {
-                                case '6':
-                                    echo '<h3><i style="color:green"  class="fi-check large"></i></h3>';
-                                    break;
-
-                                case '13':
-                                    echo '<h3><i style="color:red"  class="fi-page-doc large"></i></h3>';
-                                    break;
-
-                                default:
-                                    # code...
-                                    break;
-                            }
-
-
-
-                            ?>
+                        <div class="small-12 large-12 cell">
+                            <center>
+                                <h4>Não há interações nesta solicitação</h4>
+                            </center>
                         </div>
-
-                        <div class="small-12 large-2 cell">
-                            <?= $value['descricao_status']  ?>
-                        </div>
-
-                        <div class="small-12 large-4 cell">
-                            <?= $value['nome_log']  ?>
-                        </div>
-
-
-                        <div class="small-12 large-1 cell">
-                            <?= $value['data_log']  ?>
-                        </div>
-
-                        <div class="small-12 large-2 cell">
-                            <?= $value['nome_pessoa_log']  ?>
-                        </div>
-
-
-                        <div class="small-12 large-2 cell">
-                            <?= $value['descricao_tipo_pessoa']  ?>
-                        </div>
-
-
                     </div>
 
-                <?php           }
+
+
+                <?php
+
+
+                }
+
+
+
+                //aqui
 
 
 

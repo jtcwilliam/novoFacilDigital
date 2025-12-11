@@ -84,10 +84,10 @@ if ($_SESSION['usuarioLogado']['dados'][0]['tipo_pessoa'] != 4 && $_SESSION['usu
 
                 <textarea rows="5" id="mensagemComuniqueArquivo"></textarea>
                 <Br>
-                <a class="button" style="width: 100%;" onclick="enviarEmailComuniqueSe()"> Enviar Comunicado ao Cidadão</a>
+                <a class="button" style="width: 100%;" onclick="enviarEmailComuniqueSe()"> Registrar Ação na Solicitação</a>
 
-                <button class="close-button" data-close aria-label="Close modal" type="button">
-                    <span aria-hidden="true">&times;</span>
+                <button id="fechaModalArquivo"   data-close aria-label="Close modal" type="button">
+                    <span aria-hidden="true">Clique para fechar</span>
                 </button>
             </div>
 
@@ -96,7 +96,7 @@ if ($_SESSION['usuarioLogado']['dados'][0]['tipo_pessoa'] != 4 && $_SESSION['usu
             <div class=" large reveal" id="modalManualAtendente" data-reveal style="padding: 60px   ;background-color: rgb(231, 228, 220);">
 
 
-              
+
 
                 <button class="close-button" data-close aria-label="Close modal" type="button">
                     <span aria-hidden="true">&times;</span>
@@ -219,7 +219,7 @@ if ($_SESSION['usuarioLogado']['dados'][0]['tipo_pessoa'] != 4 && $_SESSION['usu
     ?><script>
         $(document).ready(function() {
 
-            ajudaAtendente(<?=$_GET['idSolicitacao']?>);
+            ajudaAtendente(<?= $_GET['idSolicitacao'] ?>);
 
 
         })
@@ -371,7 +371,13 @@ if ($_SESSION['usuarioLogado']['dados'][0]['tipo_pessoa'] != 4 && $_SESSION['usu
 
                 if (data.retorno == true) {
                     alert('Informação Registrada com Sucesso');
+                    
+                    $("#fechaModalArquivo").trigger("click");
                     exbirArquivosDaSolicitacao($('#idSolicitacao').val())
+
+
+
+                    //
                 }
 
             });

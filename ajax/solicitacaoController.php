@@ -59,7 +59,7 @@ if (isset($_POST['trazerSolicitacaoStatus'])) {
 
 if (isset($_POST['inserirSolicitacao'])) {
 
- 
+
 
 
     if (isset($_POST['representaTerceiro'])) {
@@ -67,6 +67,24 @@ if (isset($_POST['inserirSolicitacao'])) {
     } else {
         $representaTerceiro = '0';
     }
+
+    if (isset($_POST['representantes'])) {
+
+        $representante = $_POST['representantes'];
+
+        $atuantesProcesso = '';
+
+        foreach ($representante as $key => $value) {
+            $atuantesProcesso .= $value . '<br>';
+        }
+
+
+        $objSolicitacao->setAtuaProcesso($atuantesProcesso);
+    }else
+    {
+        $objSolicitacao->setAtuaProcesso(' - ');
+    }
+
 
 
     $ran = rand();

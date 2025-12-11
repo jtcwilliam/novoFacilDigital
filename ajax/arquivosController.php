@@ -86,9 +86,9 @@ if (isset($_POST['criaCampoArquivoComuniqueSeUnico'])) {
 
 
     $criarCaixaArquivo =  $objDOcumento->montarArquivosDoComuniqueSe($_POST['idSolicitacao']);
- 
 
-    
+
+
 
 
 
@@ -121,7 +121,7 @@ if (isset($_POST['criaCampoArquivoComuniqueSeUnico'])) {
                 <label>
                     <h5><b><i>"<?= $value['nome_arquivo'] ?>"</i></b></h5>
                 </label>
-                
+
                 <input type="file" id="fileInput<?= $i ?>" name="file<?= $i ?>" class="button" style="background-color:#4c5e6a; height: 3em; "
 
                     onchange="subirArquivo('file<?= $i ?>','fileInput<?= $i ?>' ,  <?= $value['id_arquivo']  ?>, '<?= $value['descricao_status']  ?>',  '<?= $value['nome_pessoa']  ?>',  '<?= $value['id_status']  ?>'  )  ">
@@ -244,6 +244,8 @@ if (isset($_POST['verificarAssinaturaDigital'])) {
     $objArquivo->setIdArquivo($_POST['idArquivo']);
     $objArquivo->setAssinadoDigital($_POST['status']);
 
+    print_r($_POST);
+
 
     if ($objArquivo->informarAssinatura()) {
         echo json_encode(array('retorno' => true));
@@ -255,16 +257,10 @@ if (isset($_POST['verificarAssinaturaDigital'])) {
 
 if (isset($_POST['carregarArquivoApagadoPeloAtendenteSolicitante'])) {
 
- 
-
-    echo '<pre>';
-
-    print_r($_POST);
-
-    echo '</pre>';
 
 
-    
+
+
 
 
     //mudar o nome do arquivo para  nao ficar dificil
@@ -283,18 +279,18 @@ if (isset($_POST['carregarArquivoApagadoPeloAtendenteSolicitante'])) {
 
     //pegar somente a extensao
     $tipoArquivo = $tipoDeArquivo[count($tipoDeArquivo) - 1];
- 
+
     //colocar este tipo de arquivo na pasta
     move_uploaded_file($_FILES['file']['tmp_name'], '../files/' . $nomeArquivoSalvar . '.' . $tipoArquivo);
- 
- 
+
+
 
 
     //o que vai
 
     //informo o tipo de arquivo para fins de relatorio
     $objArquivo->setTipoArquivo($tipoArquivo);
-    
+
     //insiro o id do arquivo para saber qual vamos buscar
     $objArquivo->setIdArquivo($_POST['idArquivo']);
 
@@ -305,13 +301,13 @@ if (isset($_POST['carregarArquivoApagadoPeloAtendenteSolicitante'])) {
     $objArquivo->setArquivo('files/' . $nomeArquivoSalvar . '.' . $tipoArquivo);
 
 
-    
-    
-
-            //nome_pessoa_log, nome_log,texto_log , status_log , data_log, id_solicitacao ,tipo_pessoa_log, id_arquivo
 
 
-    
+
+    //nome_pessoa_log, nome_log,texto_log , status_log , data_log, id_solicitacao ,tipo_pessoa_log, id_arquivo
+
+
+
     if ($objArquivo->atualizarAquivoSolicitacao()) {
 
 
@@ -338,27 +334,44 @@ if (isset($_POST['carregarArquivoApagadoPeloAtendenteSolicitante'])) {
 
         */
 
-            $objLog->setnome_pessoaLog($_POST['nome_pessoa']);
-            $objLog->setNomeLog($_POST['status']);
-            $objLog->setTextoLog('Envio do Arquivo Solicitado');
-            $objLog->setStatusLog('6');        
-            $objLog->setDataLog(date('Y-m-d H:i:s'));
-            $objLog->settipo_pessoaLog('1');
-            $objLog->setSolicitacao($_POST['idSolicitacao']);
-            $objLog->setIdArquivo($_POST['idArquivo']);
+        $objLog->setnome_pessoaLog($_POST['nome_pessoa']);
 
-        
+        //status arquivo
+        $objLog->setNomeLog($_POST['status']);
+        $objLog->setTextoLog('Envio do Arquivo Solicitado');
+        $objLog->setStatusLog('6');
+        $objLog->setDataLog(date('Y-m-d H:i:s'));
+        $objLog->settipo_pessoaLog('1');
 
-            
+        //manda essa solicitacao
+        $objLog->setSolicitacao($_POST['idSolicitacao']);
+        //manda esse arquivo
+        $objLog->setIdArquivo($_POST['idArquivo']);
+        $objLog->setLog_fechado(1);
 
-        $objLog->inserirLog();
 
 
 
-        echo json_encode(array('retorno' => true));
+
+
+
+
+
+
+
+
+
+        if ($objLog->inserirLog()) 
+            {
+
+
+           if($objLog->atualizaLog())
+            { 
+                echo json_encode(array('retorno' => true));
+           }
     }
 
-
+    }
 
 
     //$dadosDoInsert = $objArquivo->inserirArquivos();

@@ -289,16 +289,21 @@ echo '</pre>';
     }
 
     function inserirSolicitacao(solicitante) {
+        let infos;
+        let pessoa = [];
         $('.atuarPessoa').each(function() {
             emailAtuar = $(this).find('.emailAtuar').val();
             nomeAtuar = $(this).find('.nomeAtuar').val();
             celularAtuar = $(this).find('.celularAtuar').val();
 
-            pessoa = `Nome: ${nomeAtuar}. Email ${emailAtuar}. Celular  ${celularAtuar } `;
-
-            console.log(pessoa);
+            infos = `Nome: ${nomeAtuar}. Email ${emailAtuar}. Celular  ${celularAtuar } `;
+            pessoa.push(infos);
+         
 
         })
+
+        console.log(pessoa);
+        
 
         var formData = {
             representaTerceiro: $('#representaTerceiro').val(),
@@ -320,7 +325,8 @@ echo '</pre>';
             txtRua: $('#txtRua').val(),
             txtNUmero: $('#txtNUmero').val(),
             txtComplemento: $('#txtComplemento').val(),
-            txtBairro: $('#txtBairro').val()
+            txtBairro: $('#txtBairro').val(),
+            representantes: pessoa
 
 
         };
@@ -328,7 +334,7 @@ echo '</pre>';
                 type: 'POST',
                 url: 'ajax/solicitacaoController.php',
                 data: formData,
-                dataType: 'json',
+                dataType: 'html',
                 encode: true
             })
             .done(function(data) {

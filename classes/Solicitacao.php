@@ -55,6 +55,8 @@ class Solicitacao
     private $telefoneTerceiro;
     private $representaTerceiro;
 
+    private $atuaProcesso; 
+
 
 
 
@@ -719,10 +721,10 @@ class Solicitacao
             $stmt = $pdo->prepare(" INSERT INTO solicitacao (id_carta_servico,descricao_solicitacao, documento_publico,data_solicitacao,
             status_solicitacao,
              solicitante,tipo_documento, protocolo, doc_solicitacao_pessoal,  cep_solicitacao   ,  logradouro_sol   
-              ,  numero_sol, complemento, bairro, nome_terceiro,  documento_terceiro,  email_terceiro, telefone_terceiro, representa_terceiro  )
+              ,  numero_sol, complemento, bairro, nome_terceiro,  documento_terceiro,  email_terceiro, telefone_terceiro, representa_terceiro, autorizados_requerimento  )
              VALUES ( :assuntoSolicitacao,:descricaoSolicitacao, :documentoPublico, :dataSolicitacao,
               :statusSolicitacao, :solicitante, :tipoDocumento, :protocolo, :docSolicitacaoPessoal,  :cepSolicitacao, 
-                :logradouroSol, :numeroSol,  :complemento,   :bairro, :nomeTerceiro,  :documentoTerceiro,  :emailTerceiro,  :telefoneTerceiro, :representaTerceiro )");
+                :logradouroSol, :numeroSol,  :complemento,   :bairro, :nomeTerceiro,  :documentoTerceiro,  :emailTerceiro,  :telefoneTerceiro, :representaTerceiro, :autorizadoReq )");
 
             $stmt->bindValue(':assuntoSolicitacao',  $this->getAssuntoSolicitacao(), PDO::PARAM_STR);
 
@@ -761,6 +763,9 @@ class Solicitacao
             $stmt->bindValue(':telefoneTerceiro',  $this->getTelefoneTerceiro(), PDO::PARAM_STR);
 
             $stmt->bindValue(':representaTerceiro',  $this->getRepresentaTerceiro(), PDO::PARAM_STR);
+
+            $stmt->bindValue(':autorizadoReq',  $this->getAtuaProcesso(), PDO::PARAM_STR);
+             
 
  
 
@@ -1481,6 +1486,26 @@ class Solicitacao
     public function setAutorizadosRequerimento($autorizadosRequerimento)
     {
         $this->autorizadosRequerimento = $autorizadosRequerimento;
+
+        return $this;
+    }
+
+    /**
+     * Get the value of atuaProcesso
+     */ 
+    public function getAtuaProcesso()
+    {
+        return $this->atuaProcesso;
+    }
+
+    /**
+     * Set the value of atuaProcesso
+     *
+     * @return  self
+     */ 
+    public function setAtuaProcesso($atuaProcesso)
+    {
+        $this->atuaProcesso = $atuaProcesso;
 
         return $this;
     }

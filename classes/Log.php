@@ -25,6 +25,8 @@ class Log
 
     private $tipo_pessoaLog;
     private $idArquivo;
+    private $respondeLog;
+    private $log_fechado;
 
 
     function __construct()
@@ -108,11 +110,12 @@ class Log
             $tipo_pessoa = $this->gettipo_pessoaLog();
             $idSolicitacao = $this->getSolicitacao();
             $idArquivo = $this->getIdArquivo();
+            $log_fechado = $this->getLog_fechado();
 
-            $stmt = $pdo->prepare("  INSERT INTO  log (nome_pessoa_log, nome_log,texto_log , status_log , data_log, id_solicitacao ,tipo_pessoa_log, id_arquivo   )   values (?,?,?,?,?,?,?,?) ");
- 
+            $stmt = $pdo->prepare("  INSERT INTO  log (nome_pessoa_log, nome_log,texto_log , status_log , data_log, id_solicitacao ,tipo_pessoa_log, id_arquivo, log_fechado   )   values (?,?,?,?,?,?,?,?,?) ");
 
-     
+
+
 
             //corrigir isto aqui
             $stmt->bindParam(1,  $usuarioLog, PDO::PARAM_STR); //
@@ -131,6 +134,8 @@ class Log
 
             $stmt->bindParam(8,  $idArquivo, PDO::PARAM_INT); //
 
+            $stmt->bindParam(9,  $log_fechado, PDO::PARAM_INT); //
+
             if ($stmt->execute()) {
                 return true;
             }
@@ -141,15 +146,24 @@ class Log
 
 
 
-
-    public function  exibirLogs($idSolicitacao, $id)
+    public function  informarLogAtendente($idSolicitacao)
     {
 
         try {
 
             $pdo = $this->getPdoConn();
 
-            $stmt = $pdo->prepare("select * from log where status_log != $id and  id_solicitacao = $idSolicitacao    ");
+            $stmt = $pdo->prepare("select l.status_log ,
+                                    nome_log ,
+                                    st.descricao_status, 
+                                    l.nome_pessoa_log,  
+                                    to_char(data_log, 'DD/MM/YY') as data_log,
+                                    tp.descricao_tipo_pessoa 
+                                    from log l inner join status st on l.status_log  = st.id_status 
+                                    inner join arquivo  ar on ar.id_arquivo  = l.id_arquivo 
+                                    inner join tipo_pessoa tp  on l.tipo_pessoa_log  = tp.id_tipo_pessoa 
+                                    where ar.id_solicitacao  =  ".$idSolicitacao. " 
+                                    order by id_log desc  ");
 
             $stmt->execute();
 
@@ -172,6 +186,83 @@ class Log
             }
 
             return $retorno;
+        } catch (PDOException $e) {
+            echo 'Error: ' . $e->getMessage();
+        }
+    }
+
+
+
+
+    public function  exibirLogs($idSolicitacao, $id)
+    {
+
+        try {
+
+            $pdo = $this->getPdoConn();
+
+            $stmt = $pdo->prepare("select * from log where status_log != $id and  id_solicitacao = $idSolicitacao    and log_fechado = 0  ");
+
+            $stmt->execute();
+
+            $retorno = array();
+
+            $dados = array();
+
+            $row = $stmt->fetchAll();
+            $i = 0;
+
+            foreach ($row as $key => $value) {
+                $dados[] = $value;
+                $retorno['condicao'] = true;
+                $retorno['dados'] = $dados;
+                $i++;
+            }
+
+            if (empty($dados)) {
+                $retorno['condicao'] = false;
+            }
+
+            return $retorno;
+        } catch (PDOException $e) {
+            echo 'Error: ' . $e->getMessage();
+        }
+    }
+
+
+    public function  atualizaLog()
+    {
+        try {
+
+            $pdo = $this->getPdoConn();
+
+            //$pdo = new PDO("mysql:host='" . $host . "' ;dbname='" . $db . "', '" . $user, $password);
+            //    $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
+            $usuarioLog =   $this->getnome_pessoaLog();
+
+
+            $logFechado = $this->getLog_fechado();
+            $idArquivo = $this->getIdArquivo();
+            $idSolicitacao = $this->getSolicitacao();
+            $statusLog = $this->getNomeLog();
+
+
+            $stmt = $pdo->prepare(" UPDATE log set log_fechado = ? where id_arquivo = ? and id_solicitacao =?  ");
+
+            //corrigir isto aqui
+            $stmt->bindParam(1,  $logFechado, PDO::PARAM_STR); //
+
+            $stmt->bindParam(2,  $idArquivo, PDO::PARAM_STR); //
+
+            $stmt->bindParam(3,  $idSolicitacao, PDO::PARAM_STR); //
+
+            //$stmt->bindParam(4,  $statusLog, PDO::PARAM_STR); //
+
+
+            if ($stmt->execute()) {
+                return true;
+            }
         } catch (PDOException $e) {
             echo 'Error: ' . $e->getMessage();
         }
@@ -477,6 +568,46 @@ class Log
     public function setIdArquivo($idArquivo)
     {
         $this->idArquivo = $idArquivo;
+
+        return $this;
+    }
+
+    /**
+     * Get the value of respondeLog
+     */
+    public function getRespondeLog()
+    {
+        return $this->respondeLog;
+    }
+
+    /**
+     * Set the value of respondeLog
+     *
+     * @return  self
+     */
+    public function setRespondeLog($respondeLog)
+    {
+        $this->respondeLog = $respondeLog;
+
+        return $this;
+    }
+
+    /**
+     * Get the value of log_fechado
+     */
+    public function getLog_fechado()
+    {
+        return $this->log_fechado;
+    }
+
+    /**
+     * Set the value of log_fechado
+     *
+     * @return  self
+     */
+    public function setLog_fechado($log_fechado)
+    {
+        $this->log_fechado = $log_fechado;
 
         return $this;
     }

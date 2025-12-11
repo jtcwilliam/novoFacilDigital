@@ -235,7 +235,7 @@ if ($_SESSION['usuarioLogado']['dados'][0]['tipo_pessoa'] != 4 && $_SESSION['usu
                     <h3><i class="fi-torsos-male-female large"></i></h3>
                 </div>
                 <div class="small-10 cell" style="display: inline; align-content: center; text-align: justify;">
-                    <a style="color: white;"   target="_blank" href="exibirManual.php?idSolicitacao=<?= $_GET['89a2e8ef07b59a9a87135b9e2fe979d4b40a616d'] ?>"   >
+                    <a style="color: white;" target="_blank" href="exibirManual.php?idSolicitacao=<?= $_GET['89a2e8ef07b59a9a87135b9e2fe979d4b40a616d'] ?>">
                         <h6>Quer uma Ajuda? </h6>
                     </a>
                 </div>
@@ -249,28 +249,28 @@ if ($_SESSION['usuarioLogado']['dados'][0]['tipo_pessoa'] != 4 && $_SESSION['usu
                 </div>
                 <div class="small-10 cell" style="display: inline; align-content: center; text-align: justify;">
 
-                <a  style="color: white;" onclick="exbirArquivosDaSolicitacao($('#idSolicitacao').val())">
-                            <h6>Arquivos da Solicitação </h6>
-                        </a>
-                   
+                    <a style="color: white;" onclick="exbirArquivosDaSolicitacao($('#idSolicitacao').val())">
+                        <h6>Arquivos da Solicitação </h6>
+                    </a>
+
                 </div>
             </div>
         </div>
-            <div class="small-12 large-2 cell">
+        <div class="small-12 large-2 cell">
             <div class="grid-x  grid-padding-x">
                 <div class="small-2 cell" style="   display: inline; align-content: center; text-align: justify;">
                     <h3><i class="fi-page-multiple large"></i></h3>
                 </div>
                 <div class="small-10 cell" style="display: inline; align-content: center; text-align: justify;">
 
-                <a style="color: white;" target="_blank" href="relatorio.php?idSolicitacao=<?= $_GET['89a2e8ef07b59a9a87135b9e2fe979d4b40a616d'] ?>">
-                            <h6>Relatório </h6>
-                        </a>
-                   
+                    <a style="color: white;" target="_blank" href="relatorio.php?idSolicitacao=<?= $_GET['89a2e8ef07b59a9a87135b9e2fe979d4b40a616d'] ?>">
+                        <h6>Relatório </h6>
+                    </a>
+
                 </div>
             </div>
         </div>
-        
+
 
 
 
@@ -373,6 +373,7 @@ if ($_SESSION['usuarioLogado']['dados'][0]['tipo_pessoa'] != 4 && $_SESSION['usu
         $(document).ready(function() {
 
             exibirSolicitacao($('#idSolicitacao').val());
+            exbirArquivosDaSolicitacao($('#idSolicitacao').val())
 
 
         })
@@ -413,7 +414,7 @@ if ($_SESSION['usuarioLogado']['dados'][0]['tipo_pessoa'] != 4 && $_SESSION['usu
 
             }).done(function(data) {
                 $('#tabelaArquivos').html(data);
-                 
+
             });
         }
 
@@ -456,6 +457,9 @@ if ($_SESSION['usuarioLogado']['dados'][0]['tipo_pessoa'] != 4 && $_SESSION['usu
                 encode: true
 
             }).done(function(data) {
+                console.log(data);
+
+
                 alert('Atualizado');
                 exbirArquivosDaSolicitacao($('#idSolicitacao').val())
             });
@@ -518,7 +522,7 @@ if ($_SESSION['usuarioLogado']['dados'][0]['tipo_pessoa'] != 4 && $_SESSION['usu
                 encode: true
             }).done(function(data) {
 
- 
+
 
                 if (data.retorno == true) {
                     alert('Informação Registrada com Sucesso');

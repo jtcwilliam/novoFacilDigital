@@ -24,7 +24,7 @@ include_once './classes/Solicitacao.php';
 
 $objSolicitacao = new Solicitacao();
 
-$dados =  $objSolicitacao->pesquisarAssinatura(71);
+$dados =  $objSolicitacao->pesquisarAssinatura(105);
 
 echo '<pre>';
 print_r($dados);

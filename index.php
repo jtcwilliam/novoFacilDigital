@@ -4,7 +4,7 @@ if (!session_start()) {
     session_start();
 }
 
-
+//utf-8
 
    
 ?>
